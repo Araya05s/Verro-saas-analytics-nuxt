@@ -11,7 +11,7 @@ import {
   type ChartOptions
 } from 'chart.js'
 import { Bar } from 'vue-chartjs'
-import { useSettingsStore, ACCENT_PALETTE, type ThemeMode, type SidebarStyle, type AccentColor } from '~/stores/settings'
+import { useSettingsStore, ACCENT_PALETTE, type SidebarStyle} from '~/stores/settings'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 

@@ -9,6 +9,8 @@ import {
   CategoryScale,
   LinearScale
 } from 'chart.js'
+import { useSettingsStore } from '~/stores/settings'
+
 
 ChartJS.register(
   Title,
@@ -118,6 +120,12 @@ onUnmounted(() => {
 watch(activeTab, () => {
   nextTick(() => updatePill())
 })
+
+const settingsStore = useSettingsStore()
+
+onMounted(() => {
+  settingsStore.applyThemeToDOM()
+})
 </script>
 
 <template>
@@ -134,8 +142,8 @@ watch(activeTab, () => {
           <div class="relative flex overflow-x-auto no-scrollbar">
             <!-- Animated Active Pill Indicator -->
             <div
-              class="absolute top-1.5 bottom-1.5 rounded-md bg-emerald-600 dark:bg-slate-800 border boder-transparent dark:border-emerald-200 transition-all duration-300 ease-out"
-              :style="pillStyle"
+              class="absolute top-1.5 bottom-1.5 rounded-md dark:bg-slate-800 border border-transparent dark:border-emerald-200 transition-all duration-300 ease-out"
+              :style="[pillStyle, { 'border-color': settingsStore.activeAccentHex, backgroundColor: settingsStore.activeAccentHex }]"
             />
             <button
               v-for="(tab, index) in tabs"
@@ -157,13 +165,14 @@ watch(activeTab, () => {
         <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
           <div class="flex items-center justify-between gap-1">
             <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Monthly Recurring Revenue</span>
-            <div class="flex rounded-lg bg-emerald-50 dark:bg-slate-800 p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border boder-transparent dark:border-emerald-500">
+            <div class="flex rounded-lg  p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border"
+            :style="{ backgroundColor: `${settingsStore.activeAccentHex}20`, color: settingsStore.activeAccentHex, 'border-color': settingsStore.activeAccentHex}">
               <Icon name="heroicons:currency-dollar" class="size-6" />
             </div>
           </div>
           <div class="mt-4 flex items-baseline justify-between">
             <span class="text-3xl font-extrabold text-slate-900 dark:text-slate-200">$48,250</span>
-            <span class="inline-flex items-center text-xs font-semibold text-emerald-600">
+            <span class="inline-flex items-center text-xs font-semibold text-emerald-500">
               ↑ 12.5%
             </span>
           </div>
@@ -174,13 +183,13 @@ watch(activeTab, () => {
         <div class="rounded-2xl border border-blue-100 dark:border-blue-900 bg-linear-to-br from-white dark:from-blue-800 to-blue-50/30 dark:to-blue-900/30 p-6 shadow-xs">
           <div class="flex items-center justify-between gap-1">
             <span class="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-slate-300">Active Subscribers</span>
-            <div class="flex rounded-lg bg-blue-100 p-2 items-center justify-center text-blue-600">
+            <div class="flex rounded-lg bg-blue-100 dark:bg-slate-900 p-2 items-center justify-center text-blue-600 dark:text-blue-400 border border-transparent dark:border-blue-500">
               <Icon name="heroicons:users" class="size-6" />
             </div>
           </div>
           <div class="mt-4 flex items-baseline justify-between">
             <span class="text-3xl font-extrabold text-slate-900 dark:text-slate-200">1,420</span>
-            <span class="inline-flex items-center rounded-md bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">
+            <span class="inline-flex items-center rounded-md bg-blue-100 dark:bg-slate-900 px-2 py-0.5 text-xs font-semibold text-emerald-500 border border-transparent dark:border-blue-200">
               +184 new
             </span>
           </div>
@@ -191,13 +200,14 @@ watch(activeTab, () => {
         <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
           <div class="flex items-center justify-between gap-1">
             <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Churn Rate</span>
-            <div class="flex rounded-lg bg-emerald-50 dark:bg-slate-800 p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border boder-transparent dark:border-emerald-500">
+            <div class="flex rounded-lg bg-emerald-50 dark:bg-slate-800 p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border border-transparent dark:border-emerald-500"
+            :style="{ backgroundColor: `${settingsStore.activeAccentHex}20`, color: settingsStore.activeAccentHex, 'border-color': settingsStore.activeAccentHex}">
               <Icon name="heroicons:arrow-trending-up"/>
             </div>
           </div>
           <div class="mt-4 flex items-baseline justify-between">
             <span class="text-3xl font-extrabold text-slate-900 dark:text-slate-200">1.8%</span>
-            <span class="inline-flex items-center text-xs font-semibold text-emerald-600">
+            <span class="inline-flex items-center text-xs font-semibold text-emerald-500">
               ↓ 0.4%
             </span>
           </div>
@@ -208,13 +218,14 @@ watch(activeTab, () => {
         <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
           <div class="flex items-center justify-between gap-1">
             <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Avg Revenue Per User</span>
-            <div class="flex rounded-lg bg-emerald-50 dark:bg-slate-800 p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border boder-transparent dark:border-emerald-500">
+            <div class="flex rounded-lg bg-emerald-50 dark:bg-slate-800 p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border border-transparent dark:border-emerald-500"
+            :style="{ backgroundColor: `${settingsStore.activeAccentHex}20`, color: settingsStore.activeAccentHex, 'border-color': settingsStore.activeAccentHex}">
               <Icon name="heroicons:chart-bar" class="size-6" />
             </div>
           </div>
           <div class="mt-4 flex items-baseline justify-between">
             <span class="text-3xl font-extrabold text-slate-900 dark:text-slate-200">$33.98</span>
-            <span class="inline-flex items-center text-xs font-semibold text-emerald-600">
+            <span class="inline-flex items-center text-xs font-semibold text-emerald-500">
               ↑ 3.1%
             </span>
           </div>
@@ -242,7 +253,6 @@ watch(activeTab, () => {
           <div>
             <div class="mb-4 flex items-center justify-between">
               <h2 class="text-lg font-bold text-slate-900 dark:text-slate-200">Live Activity</h2>
-              <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800">Realtime</span>
             </div>
 
             <!-- Activity List -->
