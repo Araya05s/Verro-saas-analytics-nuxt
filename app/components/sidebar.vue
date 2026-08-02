@@ -25,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <header class="sticky top-0 left-0 z-50 h-screen border-b border-slate-200 dark:border-slate-500 bg-white dark:bg-slate-900 shadow-xs">
+  <header class="sticky top-0 left-0 z-50 h-screen border-b border-slate-200 dark:border-slate-500 bg-white dark:bg-slate-950 shadow-xs">
       <div class="flex flex-col max-w-m w-2xs  px-6 py-4">
         <div class="flex flex-col space-x-8">
           <!-- Logo -->

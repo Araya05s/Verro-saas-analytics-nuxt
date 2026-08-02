@@ -1,9 +1,9 @@
 <template>
-    <header class="sticky top-0 z-25 border-b border-slate-200 bg-white shadow-xs">
+    <header class="sticky top-0 z-25 border-b border-slate-200  dark:border-emerald-500 bg-white dark:bg-slate-950 shadow-xs">
       <div class="mx-auto flex w-5xl items-center flex-end justify-between px-6 py-4">
        
         <div class="flex ml-auto items-center space-x-4">
-          <span class="hidden rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 ring-1 ring-blue-500/20 md:inline-flex">
+          <span class="hidden rounded-full bg-blue-50 dark:bg-slate-900 border-b border-transparent dark:border-blue-500 px-3 py-1 text-xs font-semibold text-blue-600 dark:text-blue-50 ring-1 ring-blue-500/20 md:inline-flex">
             ⚡ Live Data
           </span>
 

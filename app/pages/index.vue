@@ -30,7 +30,7 @@ const chartOptions = ref({
     y: {
       stacked: true,
       grid: {
-        color: '#f1f5f9'
+        color: '#515559'
       },
       ticks: { display: false }
     }
@@ -128,13 +128,13 @@ watch(activeTab, () => {
         </div>
 
         <!-- Sliding Horizontal Navigation Bar -->
-        <div class="rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xs">
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 p-1.5 shadow-xs">
           
           <!-- Tab Items -->
           <div class="relative flex overflow-x-auto no-scrollbar">
             <!-- Animated Active Pill Indicator -->
             <div
-              class="absolute top-1.5 bottom-1.5 rounded-md bg-emerald-600 border border-emerald-200 transition-all duration-300 ease-out"
+              class="absolute top-1.5 bottom-1.5 rounded-md bg-emerald-600 dark:bg-slate-800 border boder-transparent dark:border-emerald-200 transition-all duration-300 ease-out"
               :style="pillStyle"
             />
             <button
@@ -143,7 +143,7 @@ watch(activeTab, () => {
               :ref="(el) => (tabRefs[index] = el as HTMLElement)"
               @click="activeTab = tab.key"
               class="flex items-center justify-center gap-2 whitespace-nowrap rounded-xl px-5 py-2.5 text-xs font-bold transition-colors z-10"
-              :class="[activeTab === tab.key ? 'text-white' : 'text-slate-500 hover:text-slate-800']"
+              :class="[activeTab === tab.key ? 'text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-50']"
             >
               {{ tab.label }}
             </button>
@@ -157,7 +157,7 @@ watch(activeTab, () => {
         <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
           <div class="flex items-center justify-between gap-1">
             <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Monthly Recurring Revenue</span>
-            <div class="flex rounded-lg bg-emerald-50 p-2 items-center justify-center text-emerald-600">
+            <div class="flex rounded-lg bg-emerald-50 dark:bg-slate-800 p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border boder-transparent dark:border-emerald-500">
               <Icon name="heroicons:currency-dollar" class="size-6" />
             </div>
           </div>
@@ -191,7 +191,7 @@ watch(activeTab, () => {
         <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
           <div class="flex items-center justify-between gap-1">
             <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Churn Rate</span>
-            <div class="flex rounded-lg bg-emerald-50 p-2 items-center justify-center text-emerald-600">
+            <div class="flex rounded-lg bg-emerald-50 dark:bg-slate-800 p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border boder-transparent dark:border-emerald-500">
               <Icon name="heroicons:arrow-trending-up"/>
             </div>
           </div>
@@ -208,7 +208,7 @@ watch(activeTab, () => {
         <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
           <div class="flex items-center justify-between gap-1">
             <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Avg Revenue Per User</span>
-            <div class="flex rounded-lg bg-emerald-50 p-2 items-center justify-center text-emerald-600">
+            <div class="flex rounded-lg bg-emerald-50 dark:bg-slate-800 p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border boder-transparent dark:border-emerald-500">
               <Icon name="heroicons:chart-bar" class="size-6" />
             </div>
           </div>
@@ -227,13 +227,13 @@ watch(activeTab, () => {
         <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs lg:col-span-2">
           <div class="mb-6 flex items-center justify-between">
             <div>
-              <h2 class="text-lg font-bold text-slate-900">Revenue Growth</h2>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-slate-200">Revenue Growth</h2>
               <p class="text-xs text-slate-500">Gross revenue vs Net revenue trajectory</p>
             </div>
           </div>
           
           <!-- Chart Mockup Data -->
-          <div class="h-64 w-full rounded-xl border border-dashed border-slate-200 bg-slate-50/50 p-4">
+          <div class="h-64 w-full rounded-xl border border-dashed border-slate-20 dark:border-slate-200 bg-slate-50/50 dark:bg-slate-950/50 p-4">
             <Bar :data="chartData" :options="chartOptions" />
           </div>
         </div>
@@ -241,7 +241,7 @@ watch(activeTab, () => {
         <div class="flex flex-col justify-between rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
           <div>
             <div class="mb-4 flex items-center justify-between">
-              <h2 class="text-lg font-bold text-slate-900">Live Activity</h2>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-slate-200">Live Activity</h2>
               <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800">Realtime</span>
             </div>
 
@@ -252,7 +252,7 @@ watch(activeTab, () => {
                   ⚡
                 </div>
                 <div>
-                  <p class="text-sm font-medium text-slate-800">New Enterprise Upgrade</p>
+                  <p class="text-sm font-medium text-slate-800 dark:text-slate-50">New Enterprise Upgrade</p>
                   <p class="text-xs text-slate-500">Acme Corp upgraded to $299/mo plan</p>
                   <span class="text-[10px] text-slate-400 dark:text-slate-300">2 minutes ago</span>
                 </div>
@@ -263,7 +263,7 @@ watch(activeTab, () => {
                   👤
                 </div>
                 <div>
-                  <p class="text-sm font-medium text-slate-800">New User Sign Up</p>
+                  <p class="text-sm font-medium text-slate-800 dark:text-slate-50">New User Sign Up</p>
                   <p class="text-xs text-slate-500">dev_sarah@example.com</p>
                   <span class="text-[10px] text-slate-400 dark:text-slate-300">14 minutes ago</span>
                 </div>
@@ -274,7 +274,7 @@ watch(activeTab, () => {
                   💳
                 </div>
                 <div>
-                  <p class="text-sm font-medium text-slate-800">Subscription Renewed</p>
+                  <p class="text-sm font-medium text-slate-800 dark:text-slate-50">Subscription Renewed</p>
                   <p class="text-xs text-slate-500">Pro Tier ($49.00)</p>
                   <span class="text-[10px] text-slate-400 dark:text-slate-300">1 hour ago</span>
                 </div>
@@ -283,10 +283,10 @@ watch(activeTab, () => {
           </div>
 
           <!-- Blue CTA Callout at bottom -->
-          <div class="mt-6 rounded-xl bg-blue-50/80 p-4 border border-blue-100">
-            <p class="text-xs font-bold text-blue-900">Need advanced attribution?</p>
-            <p class="mt-1 text-xs text-blue-700">Connect Google Analytics or Segment integrations.</p>
-            <a href="#" class="mt-3 inline-block text-xs font-semibold text-blue-600 hover:underline">Configure Integrations →</a>
+          <div class="mt-6 rounded-xl bg-blue-50/80 dark:bg-slate-900/80 p-4 border-b border-blue-100 dark:border-blue-800">
+            <p class="text-xs font-bold text-blue-900 dark:text-blue-200">Need advanced attribution?</p>
+            <p class="mt-1 text-xs text-blue-700 dark:text-blue-300">Connect Google Analytics or Segment integrations.</p>
+            <a href="#" class="mt-3 inline-block text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">Configure Integrations →</a>
           </div>
         </div>
       </div>
