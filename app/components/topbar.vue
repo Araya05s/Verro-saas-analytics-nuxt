@@ -12,8 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <header class="sticky top-0 z-25 border-b border-slate-200  dark:border-emerald-500 bg-white dark:bg-slate-950 shadow-xs"
-    :style="{ 'border-color': settingsStore.activeAccentHex }">
+    <header class="sticky top-0 z-25 border-b border-slate-200  dark:border-accent bg-white dark:bg-slate-950 shadow-xs">
       <div class="mx-auto flex w-5xl items-center flex-end justify-between px-6 py-4">
        
         <div class="flex ml-auto items-center space-x-4">
@@ -32,8 +31,8 @@ onMounted(() => {
                     <Icon name="heroicons:bell" class="h-4 w-4" />
                     
                     <span v-if="notificationStore.hasUnread" class="absolute right-1.5 top-1.5 flex h-2 w-2">
-                      <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                      <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                      <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
+                      <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
                     </span>
                   </button>
 

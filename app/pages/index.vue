@@ -67,21 +67,22 @@ const mockDataByTimeframe: Record<timeFilterKey, { labels: string[]; gross: numb
 
 const chartData = computed(() => {
   const currentData = mockDataByTimeframe[activeTab.value]
+  const accent = settingsStore.activeAccentKey
 
   return {
     labels: currentData.labels,
     datasets: [
       {
         label: 'Gross',
-        backgroundColor: 'rgba(16, 185, 129, 0.8)',
-        hoverBackgroundColor: '#059669',
+        backgroundColor: accent.rgbaMain,
+        hoverBackgroundColor: accent.hoverHex,
         borderRadius: { topLeft: 6, topRight: 6 },
         data: currentData.gross
       },
       {
         label: 'Net',
-        backgroundColor: 'rgba(59, 130, 246, 0.8)',
-        hoverBackgroundColor: '#2563eb',
+        backgroundColor: accent.secondaryHex,
+        hoverBackgroundColor: accent.secondaryHoverHex,
         borderRadius: { topLeft: 6, topRight: 6 },
         data: currentData.net
       }
@@ -142,8 +143,8 @@ onMounted(() => {
           <div class="relative flex overflow-x-auto no-scrollbar">
             <!-- Animated Active Pill Indicator -->
             <div
-              class="absolute top-1.5 bottom-1.5 rounded-md dark:bg-slate-800 border border-transparent dark:border-emerald-200 transition-all duration-300 ease-out"
-              :style="[pillStyle, { 'border-color': settingsStore.activeAccentHex, backgroundColor: settingsStore.activeAccentHex }]"
+              class="absolute top-1.5 bottom-1.5 rounded-md bg-accent dark:bg-slate-800 border border-transparent dark:border-accent-border transition-all duration-300 ease-out"
+              :style="[pillStyle]"
             />
             <button
               v-for="(tab, index) in tabs"
@@ -165,8 +166,7 @@ onMounted(() => {
         <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
           <div class="flex items-center justify-between gap-1">
             <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Monthly Recurring Revenue</span>
-            <div class="flex rounded-lg  p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border"
-            :style="{ backgroundColor: `${settingsStore.activeAccentHex}20`, color: settingsStore.activeAccentHex, 'border-color': settingsStore.activeAccentHex}">
+            <div class="flex rounded-lg  p-2 items-center justify-center bg-accent/10 dark:bg-accent/5 text-accent border border-transparent dark:border-accent-border">
               <Icon name="heroicons:currency-dollar" class="size-6" />
             </div>
           </div>
@@ -200,8 +200,7 @@ onMounted(() => {
         <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
           <div class="flex items-center justify-between gap-1">
             <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Churn Rate</span>
-            <div class="flex rounded-lg bg-emerald-50 dark:bg-slate-800 p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border border-transparent dark:border-emerald-500"
-            :style="{ backgroundColor: `${settingsStore.activeAccentHex}20`, color: settingsStore.activeAccentHex, 'border-color': settingsStore.activeAccentHex}">
+            <div class="flex rounded-lg  p-2 items-center justify-center bg-accent/10 dark:bg-accent/5 text-accent border border-transparent dark:border-accent-border">
               <Icon name="heroicons:arrow-trending-up"/>
             </div>
           </div>
@@ -218,8 +217,7 @@ onMounted(() => {
         <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
           <div class="flex items-center justify-between gap-1">
             <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Avg Revenue Per User</span>
-            <div class="flex rounded-lg bg-emerald-50 dark:bg-slate-800 p-2 items-center justify-center text-emerald-600 dark:text-emerald-400 border border-transparent dark:border-emerald-500"
-            :style="{ backgroundColor: `${settingsStore.activeAccentHex}20`, color: settingsStore.activeAccentHex, 'border-color': settingsStore.activeAccentHex}">
+            <div class="flex rounded-lg  p-2 items-center justify-center bg-accent/10 dark:bg-accent/5 text-accent border border-transparent dark:border-accent-border">
               <Icon name="heroicons:chart-bar" class="size-6" />
             </div>
           </div>
