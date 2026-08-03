@@ -2,11 +2,13 @@
 <script setup lang="ts">
 import { Line } from 'vue-chartjs'
 import type { TimeFilter } from '~/types/analytics'
-import type { ChartData, ChartOptions } from 'chart.js'
+import type { ChartData, ChartOptions, ChartDataset } from 'chart.js'
 import { useSettingsStore } from '~/stores/settings'
 
 const settingsStore = useSettingsStore()
 const activeTab = ref<TimeFilter>('7d')
+
+type LineDataset = ChartDataset<'line'>
 
 // Reactive data mapped to active time filter
 const { OverviewMetrics } = useAnalyticsApi()
@@ -68,33 +70,37 @@ const EMPTY_CHART_DATA: ChartData<'line'> = {
   datasets: []
 }
 
-const lineChartData = computed(() => {
-  if (!overviewData.value?.chartData) return EMPTY_CHART_DATA
+const lineChartData = computed<ChartData<'line'>>(() => {
+  const chartData = overviewData.value?.chartData
+  
+  if (!chartData?.datasets || chartData.datasets.length < 2) return EMPTY_CHART_DATA
 
-  // Retrieve current active accent palette from store
   const accent = settingsStore.activeAccentKey
-  const rawDatasets = overviewData.value.chartData.datasets
+  const [revenueRaw, growthRaw] = chartData.datasets
+
+  const revenueDataset:LineDataset = {
+    ...revenueRaw,
+    label: 'Revenue',
+    backgroundColor: accent.rgbaMain,
+    hoverBackgroundColor: accent.hoverHex,
+    fill: true,
+    tension: 0.4,
+    data: (revenueRaw?.data ?? []) as number[],
+  }
+
+  const growthDataset: LineDataset = {
+    ...growthRaw,
+    label: 'User Growth',
+    backgroundColor: accent.secondaryHex,
+    hoverBackgroundColor: accent.secondaryHoverHex,
+    fill: true,
+    tension: 0.4,
+    data: (growthRaw?.data ?? []) as number[],
+  }
 
   return {
-    labels: overviewData.value.chartData.labels,
-    datasets: [
-      {
-        ...rawDatasets[0],
-        label: 'Revenue',
-        backgroundColor: accent.rgbaMain,
-        hoverBackgroundColor: accent.hoverHex,
-        fill: true,
-        tension: 0.4,
-      },
-      {
-        ...rawDatasets[1],
-        label: 'User Growth',
-        backgroundColor: accent.secondaryHex,
-        hoverBackgroundColor: accent.secondaryHoverHex,
-        fill: true,
-        tension: 0.4,
-      }
-    ]
+    labels: chartData.labels ?? [],
+    datasets: [revenueDataset, growthDataset],
   }
 })
 </script>
