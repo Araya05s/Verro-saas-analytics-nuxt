@@ -11,6 +11,7 @@ import {
 } from 'chart.js'
 import { useSettingsStore } from '~/stores/settings'
 
+const settingsStore = useSettingsStore()
 
 ChartJS.register(
   Title,
@@ -122,8 +123,6 @@ watch(activeTab, () => {
   nextTick(() => updatePill())
 })
 
-const settingsStore = useSettingsStore()
-
 onMounted(() => {
   settingsStore.applyThemeToDOM()
 })
@@ -163,73 +162,54 @@ onMounted(() => {
       <div class="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         
         <!-- Metric Card 1 -->
-        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
-          <div class="flex items-center justify-between gap-1">
-            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Monthly Recurring Revenue</span>
-            <div class="flex rounded-lg  p-2 items-center justify-center bg-accent/10 dark:bg-accent/5 text-accent border border-transparent dark:border-accent-border">
-              <Icon name="heroicons:currency-dollar" class="size-6" />
-            </div>
-          </div>
-          <div class="mt-4 flex items-baseline justify-between">
-            <span class="text-3xl font-extrabold text-slate-900 dark:text-slate-200">$48,250</span>
-            <span class="inline-flex items-center text-xs font-semibold text-emerald-500">
-              ↑ 12.5%
-            </span>
-          </div>
-          <p class="mt-1 text-xs text-slate-400 dark:text-slate-300">vs. last month ($42,880)</p>
-        </div>
+        <MetricCard
+          title="Monthly Recurring Revenue"
+          value="$48,250"
+          subtext="vs. last month ($42,880)"
+          icon="heroicons:currency-dollar"
+          trend="↑ 12.5%"
+          trend-type="positive"
+          use-accent-icon
+        />
 
         <!-- Metric Card 2 (Blue Highlight Card) -->
-        <div class="rounded-2xl border border-blue-100 dark:border-blue-900 bg-linear-to-br from-white dark:from-blue-800 to-blue-50/30 dark:to-blue-900/30 p-6 shadow-xs">
-          <div class="flex items-center justify-between gap-1">
-            <span class="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-slate-300">Active Subscribers</span>
-            <div class="flex rounded-lg bg-blue-100 dark:bg-slate-900 p-2 items-center justify-center text-blue-600 dark:text-blue-400 border border-transparent dark:border-blue-500">
-              <Icon name="heroicons:users" class="size-6" />
-            </div>
-          </div>
-          <div class="mt-4 flex items-baseline justify-between">
-            <span class="text-3xl font-extrabold text-slate-900 dark:text-slate-200">1,420</span>
+        <MetricCard
+          title="Active Subscribers"
+          value="1,420"
+          subtext="Target: 1,500 by month-end"
+          icon="heroicons:users"
+          variant-class="border-blue-100 dark:border-blue-900 bg-linear-to-br from-white dark:from-blue-800 to-blue-50/30 dark:to-blue-900/30"
+          title-class="text-blue-600 dark:text-slate-300"
+          icon-container-class="bg-blue-100 dark:bg-slate-900 text-blue-600 dark:text-blue-400 border-transparent dark:border-blue-500"
+        >
+          <template #trend>
             <span class="inline-flex items-center rounded-md bg-blue-100 dark:bg-slate-900 px-2 py-0.5 text-xs font-semibold text-emerald-500 border border-transparent dark:border-blue-200">
               +184 new
             </span>
-          </div>
-          <p class="mt-1 text-xs text-slate-400 dark:text-slate-300">Target: 1,500 by month-end</p>
-        </div>
+          </template>
+        </MetricCard>
 
         <!-- Metric Card 3 -->
-        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
-          <div class="flex items-center justify-between gap-1">
-            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Churn Rate</span>
-            <div class="flex rounded-lg  p-2 items-center justify-center bg-accent/10 dark:bg-accent/5 text-accent border border-transparent dark:border-accent-border">
-              <Icon name="heroicons:arrow-trending-up"/>
-            </div>
-          </div>
-          <div class="mt-4 flex items-baseline justify-between">
-            <span class="text-3xl font-extrabold text-slate-900 dark:text-slate-200">1.8%</span>
-            <span class="inline-flex items-center text-xs font-semibold text-emerald-500">
-              ↓ 0.4%
-            </span>
-          </div>
-          <p class="mt-1 text-xs text-slate-400 dark:text-slate-300">Lowest in 6 months</p>
-        </div>
+        <MetricCard
+          title="Churn Rate"
+          value="1.8%"
+          subtext="Lowest in 6 months"
+          icon="heroicons:arrow-trending-up"
+          trend="↓ 0.4%"
+          trend-type="positive"
+          use-accent-icon
+        />
 
         <!-- Metric Card 4 -->
-        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs">
-          <div class="flex items-center justify-between gap-1">
-            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-300">Avg Revenue Per User</span>
-            <div class="flex rounded-lg  p-2 items-center justify-center bg-accent/10 dark:bg-accent/5 text-accent border border-transparent dark:border-accent-border">
-              <Icon name="heroicons:chart-bar" class="size-6" />
-            </div>
-          </div>
-          <div class="mt-4 flex items-baseline justify-between">
-            <span class="text-3xl font-extrabold text-slate-900 dark:text-slate-200">$33.98</span>
-            <span class="inline-flex items-center text-xs font-semibold text-emerald-500">
-              ↑ 3.1%
-            </span>
-          </div>
-          <p class="mt-1 text-xs text-slate-400 dark:text-slate-300">Driven by Pro Plan upgrades</p>
-        </div>
-
+         <MetricCard
+          title="Avg Revenue Per Use"
+          value="$33.98"
+          subtext="Driven by Pro Plan upgrades"
+          icon="heroicons:chart-bar"
+          trend="↑ 3.1%"
+          trend-type="positive"
+          use-accent-icon
+        />
       </div>
 
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">

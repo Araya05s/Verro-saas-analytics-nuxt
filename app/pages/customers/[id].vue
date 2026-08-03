@@ -1,7 +1,7 @@
 <!-- pages/customers/[id].vue -->
 <script setup lang="ts">
 import type { CustomerPlan } from '~/types/customer'
-import { useCustomers } from '../composables/useCustomers'
+import { useCustomers } from '~/composables/useCustomers'
 
 const route = useRoute()
 const router = useRouter()

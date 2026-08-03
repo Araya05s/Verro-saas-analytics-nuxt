@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import type { Customer, CustomerPlan } from '~/types/customer'
 import TableData, { type Column } from '~/components/tableData.vue'
-import { useCustomers } from '../composables/useCustomers'
+import { useCustomers } from '~/composables/useCustomers'
 
 defineProps<{
   value: number
