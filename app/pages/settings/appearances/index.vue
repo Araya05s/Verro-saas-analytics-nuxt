@@ -64,7 +64,7 @@ const previewChartOptions: ChartOptions<'bar'> = {
           class="flex flex-col items-center gap-3 rounded-2xl border p-4 text-center"
           :class="[
             settingsStore.themeMode === 'light'
-              ? 'border-emerald-500 bg-emerald-50/20 ring-2 ring-emerald-500/10 shadow-xs'
+              ? 'border-accent-border bg-accent/5 ring-2 ring-accent/10 shadow-xs'
               : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
           ]"
         >
@@ -79,7 +79,7 @@ const previewChartOptions: ChartOptions<'bar'> = {
           class="flex flex-col items-center gap-3 rounded-2xl border p-4 text-center"
           :class="[
             settingsStore.themeMode === 'dark'
-              ? 'border-emerald-500 bg-emerald-50/20 ring-2 ring-emerald-500/10 shadow-xs'
+              ? 'border-accent-border bg-slate-500/20 ring-2 ring-accent/10 shadow-xs'
               : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
           ]"
         >
@@ -94,7 +94,7 @@ const previewChartOptions: ChartOptions<'bar'> = {
           class="flex flex-col items-center gap-3 rounded-2xl border p-4 text-center"
           :class="[
             settingsStore.themeMode === 'system'
-              ? 'border-emerald-500 bg-emerald-50/20 ring-2 ring-emerald-500/10 shadow-xs'
+              ? 'border-accent-border bg-slate-500/20 ring-2 ring-accent/10 shadow-xs'
               : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
           ]"
         >
@@ -120,12 +120,12 @@ const previewChartOptions: ChartOptions<'bar'> = {
           class="flex items-center justify-between rounded-xl border p-4 text-xs font-bold capitalize transition-all"
           :class="[
             settingsStore.sidebarStyle === style
-              ? 'border-emerald-500 bg-emerald-50/20 text-emerald-700 dark:text-emerald-400 ring-2 ring-emerald-500/10'
+              ? 'border-accent-border bg-accent-50/20 text-accent ring-2 ring-accent/10'
               : 'border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300'
           ]"
         >
           <span>{{ style }} Layout</span>
-          <Icon v-if="settingsStore.sidebarStyle === style" name="heroicons:check-circle-20-solid" class="size-4 text-emerald-500" />
+          <Icon v-if="settingsStore.sidebarStyle === style" name="heroicons:check-circle-20-solid" class="size-4 text-accent" />
         </button>
       </div>
     </div>
