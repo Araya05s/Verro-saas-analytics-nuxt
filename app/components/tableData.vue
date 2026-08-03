@@ -84,17 +84,17 @@ const displayedPages = computed(() => {
 </script>
 
 <template>
-  <div class="w-full rounded-2xl border border-slate-200 bg-white shadow-xs overflow-hidden">
+  <div class="w-full rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-slate-900 shadow-xs overflow-hidden">
     <div class="overflow-x-auto">
       <table class="w-full text-left text-xs">
-        <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase font-bold tracking-wider">
+        <thead class="bg-slate-50 dark:bg-accent/10 border-b border-slate-200 dark:border-accent-border text-slate-500 dark:text-slate-200 uppercase font-bold tracking-wider">
           <tr>
             <th
               v-for="col in columns"
               :key="String(col.key)"
               @click="handleSort(String(col.key), col.sortable)"
               class="p-4 transition-colors select-none"
-              :class="[col.sortable ? 'hover:bg-slate-100 hover:text-slate-900' : '']"
+              :class="[col.sortable ? 'hover:bg-slate-100 dark:hover:bg-accent/20 hover:text-slate-900 dark:hover:text-slate-50' : '']"
             >
               <div class="flex items-center gap-1.5">
                 <span>{{ col.label }}</span>
@@ -102,12 +102,12 @@ const displayedPages = computed(() => {
                   <Icon
                     v-if="sortKey !== col.key"
                     name="heroicons:chevron-up-down"
-                    class="size-4 text-slate-400"
+                    class="size-4 text-slate-400 dark:text-slate-100"
                   />
                   <Icon
                     v-else
                     :name="sortOrder === 'asc' ? 'heroicons:chevron-up' : 'heroicons:chevron-down'"
-                    class="size-4 text-blue-600"
+                    class="size-4 text-blue-600 dark:text-blue-400"
                   />
                 </template>
               </div>
@@ -115,17 +115,17 @@ const displayedPages = computed(() => {
           </tr>
         </thead>
 
-        <tbody class="divide-y divide-slate-100">
+        <tbody class="divide-y divide-slate-100 dark:divide-accent">
           <tr
             v-for="row in paginatedData"
             :key="row.id || JSON.stringify(row)"
             @click="emit('row-click', row)"
-            class="group transition-colors duration-150 hover:bg-slate-50/80"
+            class="group transition-colors duration-150 hover:bg-slate-50/80 dark:slate-900"
           >
             <td
               v-for="col in columns"
               :key="String(col.key)"
-              class="p-4 align-middle text-slate-700"
+              class="p-4 align-middle text-slate-700 dark:text-slate-200"
             >
               <slot :name="`cell-${String(col.key)}`" :row="row" :value="row[col.key]">
                 {{ col.formatter ? col.formatter(row[col.key], row) : row[col.key] }}
@@ -133,7 +133,7 @@ const displayedPages = computed(() => {
             </td>
           </tr>
           <tr v-if="paginatedData.length === 0">
-            <td :colspan="columns.length" class="p-8 text-center text-slate-400">
+            <td :colspan="columns.length" class="p-8 text-center text-slate-400 dark:text-slate-600">
               No matching records found.
             </td>
           </tr>
@@ -141,16 +141,16 @@ const displayedPages = computed(() => {
       </table>
     </div>
 
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-100 px-4 py-3 bg-slate-50/50 text-xs">
-      <div class="flex items-center gap-2 text-slate-500">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-100 dark:border-accent-border/80 px-4 py-3 bg-slate-50/50 dark:bg-accent/10 text-xs">
+      <div class="flex items-center gap-2 text-slate-500 dark:text-slate-300">
         <span>Rows per page:</span>
         <select
           v-model="itemsPerPage"
-          class="rounded-lg border border-slate-200 bg-white px-2 py-1 font-bold text-slate-800 outline-hidden focus:border-blue-500"
+          class="rounded-lg border border-slate-200 dark:border-accent-border/50 bg-white dark:bg-accent/10 px-2 py-1 font-bold text-slate-800 dark:text-slate-200 outline-hidden focus:border-accent-border"
         >
           <option v-for="opt in pageSizeOptions" :key="opt" :value="opt">{{ opt }}</option>
         </select>
-        <span class="text-slate-400">
+        <span class="text-slate-400 dark:text-slate-200">
           (Showing {{ Math.min((currentPage - 1) * itemsPerPage + 1, sortedData.length) }} - {{ Math.min(currentPage * itemsPerPage, sortedData.length) }} of {{ sortedData.length }})
         </span>
       </div>
@@ -160,7 +160,7 @@ const displayedPages = computed(() => {
         <button
           @click="currentPage = 1"
           :disabled="currentPage === 1"
-          class="rounded-lg border border-slate-200 bg-white px-2 py-1 text-slate-600 shadow-xs hover:bg-slate-50 disabled:opacity-30 disabled:hover:bg-white"
+          class="rounded-lg border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/10 px-2 py-1 text-slate-600 dark:text-slate-400 shadow-xs hover:bg-slate-50 dark:hover:bg-accent/20 disabled:opacity-30 disabled:hover:bg-white dark:disabled:hover:bg-accent/10"
           title="First Page"
         >
           &lt;&lt;
@@ -169,7 +169,7 @@ const displayedPages = computed(() => {
         <button
           @click="currentPage--"
           :disabled="currentPage === 1"
-          class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-slate-600 shadow-xs hover:bg-slate-50 disabled:opacity-30 disabled:hover:bg-white"
+          class="rounded-lg border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/5 px-2.5 py-1 text-slate-600 dark:text-slate-200 shadow-xs hover:bg-slate-50 dark:hover:bg-accent disabled:opacity-30 disabled:hover:bg-white dark:disabled:hover:bg-accent-20"
           title="Previous Page"
         >
           &lt;
@@ -182,8 +182,8 @@ const displayedPages = computed(() => {
           class="min-w-8 rounded-lg py-1 px-2.5 text-xs font-bold transition-all"
           :class="[
             currentPage === page
-              ? 'border-2 border-blue-600 bg-blue-50/50 text-blue-600 shadow-xs'
-              : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+              ? 'border-2 border-accent-border dark:border-accent-border bg-blue-50/50 dark:bg-accent/10 text-accent shadow-xs'
+              : 'border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/10 text-slate-700 dark:text-accent hover:bg-slate-50 dark:hover:bg-accent/20'
           ]"
         >
           {{ page }}
@@ -192,7 +192,7 @@ const displayedPages = computed(() => {
         <button
           @click="currentPage++"
           :disabled="currentPage >= totalPages"
-          class="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-slate-600 shadow-xs hover:bg-slate-50 disabled:opacity-30 disabled:hover:bg-white"
+          class="rounded-lg border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/5 px-2.5 py-1 text-slate-600 dark:text-slate-200 shadow-xs hover:bg-slate-50 dark:hover:bg-accent disabled:opacity-30 disabled:hover:bg-white dark:disabled:hover:bg-accent-20""
           title="Next Page"
         >
           &gt;
@@ -201,7 +201,7 @@ const displayedPages = computed(() => {
         <button
           @click="currentPage = totalPages"
           :disabled="currentPage >= totalPages"
-          class="rounded-lg border border-slate-200 bg-white px-2 py-1 text-slate-600 shadow-xs hover:bg-slate-50 disabled:opacity-30 disabled:hover:bg-white"
+          class="rounded-lg border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/10 px-2 py-1 text-slate-600 dark:text-slate-400 shadow-xs hover:bg-slate-50 dark:hover:bg-accent/20 disabled:opacity-30 disabled:hover:bg-white dark:disabled:hover:bg-accent/10"
           title="Last Page"
         >
           &gt;&gt;

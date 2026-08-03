@@ -8,6 +8,12 @@ export interface Invoice {
   status: 'Paid' | 'Unpaid'
 }
 
+// For compute tables get the plan and amount from nested items
+export interface InvoiceDisplay extends Invoice {
+  plan: string
+  formattedAmount: string
+}
+
 export interface ActivityLog {
   id: string
   action: string

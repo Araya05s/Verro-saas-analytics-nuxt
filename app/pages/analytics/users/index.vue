@@ -2,7 +2,9 @@
 <script setup lang="ts">
 import { Doughnut } from 'vue-chartjs'
 import { TIME_FILTERS, type TimeFilter } from '~/types/analytics'
+import { useSettingsStore } from '~/stores/settings'
 
+const settingsStore = useSettingsStore()
 const activeFilter = ref<TimeFilter>('30d')
 
 const userStats = computed(() => {
@@ -18,16 +20,20 @@ const userStats = computed(() => {
 })
 
 // User Tier Distribution Chart Data
-const tierChartData = computed(() => ({
-  labels: ['Free Tier', 'Pro Plan', 'Enterprise'],
-  datasets: [
-    {
-      data: [55, 30, 15],
-      backgroundColor: ['#94a3b8', '#2563eb', '#eab308'], // Neutral Slate, Secondary Blue, Highlight Yellow
-      borderWidth: 0
-    }
-  ]
-}))
+const tierChartData = computed(() => {
+  const accent = settingsStore.activeAccentKey
+  
+  return{
+    labels: ['Free Tier', 'Pro Plan', 'Enterprise'],
+    datasets: [
+      {
+        data: [55, 30, 15],
+        backgroundColor: [accent.lightHex, accent.secondaryHoverHex, accent.rgbaMain],
+        borderWidth: 0
+      }
+    ]
+  }
+})
 
 const tierChartOptions = {
   responsive: true,
@@ -42,101 +48,137 @@ const locations = [
   { country: 'Indonesia', code: 'ID', share: '12%', count: '1,494' },
   { country: 'Others', code: 'WW', share: '14%', count: '1,743' }
 ]
+
+
+const tabs: { key: TimeFilter; label: string;}[] = [
+  { key: '24h', label: '24H'},
+  { key: '7d', label: '7D'},
+  { key: '30d', label: '30D'},
+  { key: '12m', label: '12M'}
+]
+
+const tabRefs = ref<HTMLElement[]>([])
+const pillStyle = reactive({ left: '0px', width: '0px' })
+
+const updatePill = () => {
+  const index = tabs.findIndex((t) => t.key === activeTab.value)
+  const currentEl = tabRefs.value[index]
+  if (currentEl) {
+    pillStyle.left = `${currentEl.offsetLeft}px`
+    pillStyle.width = `${currentEl.offsetWidth}px`
+  }
+}
+
+const activeTab = ref<TimeFilter>('7d')
+
+onMounted(() => {
+  nextTick(() => updatePill())
+  window.addEventListener('resize', updatePill)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updatePill)
+})
+
+watch(activeTab, () => {
+  nextTick(() => updatePill())
+})
+
+// Fake pending
+const pending = ref<boolean>(true)
+
+onMounted(() => {
+  setTimeout(() => {
+    pending.value = false
+  }, 500)
+})
+
 </script>
 
 <template>
   <div class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-bold text-slate-900">User Analytics</h1>
-        <p class="text-sm text-slate-500">Demographics, retention, and conversion metrics.</p>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-50">User Analytics</h1>
+        <p class="text-sm text-slate-500 dark:text-slate-300">Demographics, retention, and conversion metrics.</p>
       </div>
 
-      <div class="inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-xs">
-        <button
-          v-for="tf in TIME_FILTERS"
-          :key="tf"
-          @click="activeFilter = tf"
-          class="rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors"
-          :class="[
-            activeFilter === tf
-              ? 'bg-blue-600 text-white shadow-xs'
-              : 'text-slate-600 hover:bg-slate-100'
-          ]"
-        >
-          {{ tf }}
-        </button>
+      <!-- Sliding Horizontal Navigation Bar -->
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 p-1.5 shadow-xs">
+          
+          <!-- Tab Items -->
+          <div class="relative flex overflow-x-auto no-scrollbar">
+            <!-- Animated Active Pill Indicator -->
+            <div
+              class="absolute top-1.5 bottom-1.5 rounded-md bg-accent dark:bg-slate-800 border border-transparent dark:border-accent-border transition-all duration-300 ease-out"
+              :style="[pillStyle]"
+            />
+            <button
+              v-for="(tab, index) in tabs"
+              :key="tab.key"
+              :ref="(el) => (tabRefs[index] = el as HTMLElement)"
+              @click="activeTab = tab.key"
+              class="flex items-center justify-center gap-2 whitespace-nowrap rounded-xl px-5 py-2.5 text-xs font-bold transition-colors z-10"
+              :class="[activeTab === tab.key ? 'text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-50']"
+            >
+              {{ tab.label }}
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
 
     <!-- User Metrics Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <!-- New Users -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-        <div class="flex items-center justify-between gap-1">
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">New Users</span>
-          <div class="flex rounded-lg bg-blue-50 p-2 items-center justify-center text-blue-600">
-            <Icon name="heroicons:user-plus" class="size-6" />
-          </div>
-        </div>
-        <div class="mt-4 flex items-baseline justify-between">
-          <span class="text-3xl font-extrabold text-slate-900">{{ userStats.newUsers.toLocaleString() }}</span>
-          <span class="inline-flex items-center text-xs font-semibold text-blue-600">↑ 14%</span>
-        </div>
-        <p class="mt-1 text-xs text-slate-400">First-time account registrations</p>
+    <div v-if="pending === true" class="animate-pulse grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div v-for="i in 4" :key="i" class="h-38 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
       </div>
 
-      <!-- Returning Users -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-        <div class="flex items-center justify-between gap-1">
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Returning Users</span>
-          <div class="flex rounded-lg bg-blue-50 p-2 items-center justify-center text-blue-600">
-            <Icon name="heroicons:arrow-path" class="size-6" />
-          </div>
-        </div>
-        <div class="mt-4 flex items-baseline justify-between">
-          <span class="text-3xl font-extrabold text-slate-900">{{ userStats.returningUsers.toLocaleString() }}</span>
-          <span class="inline-flex items-center text-xs font-semibold text-blue-600">82% retention</span>
-        </div>
-        <p class="mt-1 text-xs text-slate-400">Repeat active sessions</p>
-      </div>
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <MetricCard
+          title="New Users"
+          :value="`$${(userStats?.newUsers ?? 0).toLocaleString()}`"
+          :subtext='"First-time account registrations"'
+          icon="heroicons:user-plus"
+          trend="↑ 14%"
+          trend-type="positive"
+          use-accent-icon
+        />
 
-      <!-- Active Users -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-        <div class="flex items-center justify-between gap-1">
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Active Users</span>
-          <div class="flex rounded-lg bg-amber-50 p-2 items-center justify-center text-amber-500">
-            <Icon name="heroicons:bolt" class="size-6" />
-          </div>
-        </div>
-        <div class="mt-4 flex items-baseline justify-between">
-          <span class="text-3xl font-extrabold text-slate-900">{{ userStats.activeUsers.toLocaleString() }}</span>
-          <span class="inline-flex items-center text-xs font-semibold text-amber-600">★ High Activity</span>
-        </div>
-        <p class="mt-1 text-xs text-slate-400">Active within filter frame</p>
-      </div>
+        <MetricCard
+          title="Returning Users"
+          :value="`${(userStats?.returningUsers ?? 0).toLocaleString()}`"
+          :subtext='"30-day average"'
+          icon="heroicons:arrow-path"
+          trend="↑ 31%"
+          trend-type="positive"
+          use-accent-icon
+        />
 
-      <!-- Conversion -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-        <div class="flex items-center justify-between gap-1">
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Conversion Rate</span>
-          <div class="flex rounded-lg bg-amber-50 p-2 items-center justify-center text-amber-500">
-            <Icon name="heroicons:funnel" class="size-6" />
-          </div>
-        </div>
-        <div class="mt-4 flex items-baseline justify-between">
-          <span class="text-3xl font-extrabold text-slate-900">{{ userStats.conversionRate }}%</span>
-          <span class="inline-flex items-center text-xs font-semibold text-amber-600">+0.6%</span>
-        </div>
-        <p class="mt-1 text-xs text-slate-400">Free-to-paid conversion</p>
-      </div>
+        <MetricCard
+          title="Active Users"
+          :value="`${(userStats?.activeUsers ?? 0).toLocaleString()}`"
+          :subtext='"Active within platform"'
+          icon="heroicons:bolt"
+          trend="↑ 21%"
+          trend-type="positive"
+          use-accent-icon
+        />
+
+        <MetricCard
+          title="Conversion Rate"
+          :value="`${(userStats?.conversionRate ?? 0).toLocaleString()}`"
+          :subtext='"Free-to-paid conversion"'
+          icon="heroicons:funnel"
+          trend="↑ 0.6%"
+          trend-type="positive"
+          use-accent-icon
+        />
     </div>
 
     <!-- Charts & Location Split Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <!-- Tier Breakdown Doughnut -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-        <h2 class="text-base font-semibold text-slate-900 mb-4">User Tier Distribution</h2>
+      <div class="rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-slate-900 p-6 shadow-xs">
+        <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50 mb-4">User Tier Distribution</h2>
         <div class="h-56">
           <ClientOnly>
             <Doughnut :data="tierChartData" :options="tierChartOptions" />
@@ -145,14 +187,14 @@ const locations = [
       </div>
 
       <!-- Location Distribution -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
+      <div class="rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-slate-900 p-6 shadow-xs">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-base font-semibold text-slate-900">User Location Breakdown</h2>
-          <Icon name="heroicons:globe-alt" class="size-5 text-slate-400" />
+          <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50">User Location Breakdown</h2>
+          <Icon name="heroicons:globe-alt" class="size-5 text-slate-400 dark:text-slate-300" />
         </div>
         <div class="space-y-3">
           <div v-for="loc in locations" :key="loc.code" class="space-y-1">
-            <div class="flex justify-between text-xs font-medium text-slate-700">
+            <div class="flex justify-between text-xs font-medium text-slate-700 dark:text-slate-300">
               <span>{{ loc.country }} ({{ loc.code }})</span>
               <span class="font-semibold text-slate-900">{{ loc.count }} ({{ loc.share }})</span>
             </div>
