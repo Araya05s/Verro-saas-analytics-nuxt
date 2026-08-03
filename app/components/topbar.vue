@@ -27,7 +27,7 @@ onMounted(() => {
                     @click.stop="notificationStore.toggleNotifications"
                     type="button"
                     aria-label="Toggle notifications"
-                    class="relative flex h-8 w-8 items-center justify-center rounded-md border border-slate-500 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-800 dark:hover:text-slate-50 theme-transition focus:outline-none focus:ring-2 focus:ring-slate-50/50"
+                    class="relative flex h-8 w-8 items-center justify-center rounded-md border border-slate-500 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-800 dark:hover:text-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-50/50"
                   >
                     <Icon name="heroicons:bell" class="h-4 w-4" />
                     
@@ -42,7 +42,7 @@ onMounted(() => {
                 </div>
               </div>
 
-            <button class="relative flex h-8 w-8 items-center justify-center rounded-md border border-slate-500 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-800 dark:hover:text-slate-50 theme-transition">
+            <button class="relative flex h-8 w-8 items-center justify-center rounded-md border border-slate-500 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-800 dark:hover:text-slate-50">
               <Icon name="heroicons:user" class="size-6" />
             </button>
           </div>

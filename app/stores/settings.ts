@@ -16,14 +16,60 @@ export interface AccentColorOption {
   name: string
   hex: string
   hoverHex: string
+  lightHex: string
+  borderHex: string
+
+  // Chart-specific derived colors
+  rgbaMain: string
+  secondaryHex: string
+  secondaryHoverHex: string
 }
 
 export const ACCENT_PALETTE: AccentColorOption[] = [
-  { key: 'green', name: 'Emerald Green', hex: '#10B981', hoverHex: '#059669' },
-  { key: 'blue', name: 'Ocean Blue', hex: '#3B82F6', hoverHex: '#2563EB' },
-  { key: 'amber', name: 'Warm Amber', hex: '#F59E0B', hoverHex: '#D97706' },
-  { key: 'purple', name: 'Royal Purple', hex: '#8B5CF6', hoverHex: '#7C3AED' }
-]
+  { 
+    key: 'green', 
+    name: 'Emerald Green', 
+    hex: '#10B981', 
+    hoverHex: '#059669', 
+    lightHex: '#ECFDF5', 
+    borderHex: '#10B981',
+    rgbaMain: 'rgba(16, 185, 129, 0.8)',
+    secondaryHex: '#3B82F6',
+    secondaryHoverHex: '#2563EB'
+  },
+  { 
+    key: 'blue', 
+    name: 'Ocean Blue', 
+    hex: '#3B82F6', 
+    hoverHex: '#2563EB', 
+    lightHex: '#EFF6FF', 
+    borderHex: '#3B82F6',
+    rgbaMain: 'rgba(59, 130, 246, 0.8)',
+    secondaryHex: '#8B5CF6',
+    secondaryHoverHex: '#7C3AED'
+  },
+  { 
+    key: 'amber', 
+    name: 'Warm Amber', 
+    hex: '#F59E0B', 
+    hoverHex: '#D97706', 
+    lightHex: '#FFFBEB', 
+    borderHex: '#F59E0B',
+    rgbaMain: 'rgba(245, 158, 11, 0.8)',
+    secondaryHex: '#EF4444',
+    secondaryHoverHex: '#DC2626'
+  },
+  { 
+    key: 'purple', 
+    name: 'Royal Purple', 
+    hex: '#8B5CF6', 
+    hoverHex: '#7C3AED', 
+    lightHex: '#F5F3FF', 
+    borderHex: '#8B5CF6',
+    rgbaMain: 'rgba(139, 92, 246, 0.8)',
+    secondaryHex: '#EC4899',
+    secondaryHoverHex: '#DB2777'
+  }]
 
 export const useSettingsStore = defineStore('settings', () => {
   const profile = ref<CompanyProfile>({
@@ -33,12 +79,13 @@ export const useSettingsStore = defineStore('settings', () => {
     language: 'English (US)'
   })
 
-  const themeMode = ref<ThemeMode>('light')
+  const themeMode = ref<ThemeMode>('system')
   const sidebarStyle = ref<SidebarStyle>('expanded')
   const accentColor = ref<AccentColor>('green')
 
-  const activeAccentHex = computed(() => {
-    return ACCENT_PALETTE.find((c) => c.key === accentColor.value)?.hex || '#10B981'
+  const activeAccentKey = computed<AccentColorOption>(() => {
+    const found = ACCENT_PALETTE.find(item => item.key === accentColor.value)
+    return found ?? ACCENT_PALETTE[0]!
   })
 
   const applyThemeToDOM = () => {
@@ -56,8 +103,6 @@ export const useSettingsStore = defineStore('settings', () => {
         root.classList.add('dark')
       }
     }
-
-    root.setAttribute('data-accent', accentColor.value)
   }
 
   const updateProfile = (partial: Partial<CompanyProfile>) => {
@@ -83,7 +128,7 @@ export const useSettingsStore = defineStore('settings', () => {
     themeMode,
     sidebarStyle,
     accentColor,
-    activeAccentHex,
+    activeAccentKey,
     updateProfile,
     setThemeMode,
     setSidebarStyle,
