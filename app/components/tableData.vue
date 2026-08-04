@@ -107,7 +107,7 @@ const displayedPages = computed(() => {
                   <Icon
                     v-else
                     :name="sortOrder === 'asc' ? 'heroicons:chevron-up' : 'heroicons:chevron-down'"
-                    class="size-4 text-blue-600 dark:text-blue-400"
+                    class="size-4 text-accent dark:text-accent/20"
                   />
                 </template>
               </div>
@@ -120,7 +120,7 @@ const displayedPages = computed(() => {
             v-for="row in paginatedData"
             :key="row.id || JSON.stringify(row)"
             @click="emit('row-click', row)"
-            class="group transition-colors duration-150 hover:bg-slate-50/80 dark:slate-900"
+            class="group transition-colors duration-150 hover:bg-slate-50/80 dark:hover:bg-accent/30 text-slate-900 dark:text-slate-50"
           >
             <td
               v-for="col in columns"
@@ -133,7 +133,7 @@ const displayedPages = computed(() => {
             </td>
           </tr>
           <tr v-if="paginatedData.length === 0">
-            <td :colspan="columns.length" class="p-8 text-center text-slate-400 dark:text-slate-600">
+            <td :colspan="columns.length" class="p-8 text-center text-slate-400 dark:text-slate-200">
               No matching records found.
             </td>
           </tr>
