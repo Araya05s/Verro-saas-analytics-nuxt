@@ -156,8 +156,8 @@ const formatPercent = (val: unknown): string => {
       <!-- Custom Action Button -->
       <template #cell-action="{ row }">
         <button @click.stop="navigateToDetail(row)"
-          class="inline-flex items-center gap-1.5 rounded-lg bg-accent dark:bg-accent/20 px-3 py-1.5 text-xs font-bold text-slate-50 shadow-xs transition-all hover:bg-accent border border-transparent dark:border-accent-border active:scale-95"
-        >button
+          class="inline-flex items-center gap-1.5 rounded-lg bg-accent dark:bg-accent/20 px-3 py-1.5 text-xs font-bold text-slate-50 shadow-xs transition-all hover:bg-accent dark:hover:bg-accent/40 border border-transparent dark:border-accent-border active:scale-95"
+        >
          
           <span>View</span>
           <Icon name="heroicons:arrow-right-20-solid" class="size-3.5" />
