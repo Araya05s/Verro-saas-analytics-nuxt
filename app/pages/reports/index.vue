@@ -19,6 +19,7 @@ import { useReportsStore } from '~/stores/reports'
 import TableData, { type Column } from '~/components/tableData.vue'
 import AppModal from '~/components/appModal.vue'
 import { useSettingsStore } from '~/stores/settings'
+import { color } from 'chart.js/helpers'
 
 const settingsStore = useSettingsStore()
 
@@ -71,12 +72,18 @@ watch(activeTab, () => {
   nextTick(() => updatePill())
 })
 
+const chartTextColor = computed (() => {
+  const themeMode = settingsStore.themeMode
+
+  return {
+    textColor: themeMode=='dark' ? '#cbd5e1' : '#334155'
+  }
+})
+
 const GREEN = '#10B981'
-const BLUE = '#3B82F6'
 const YELLOW = '#F59E0B'
 
 const revenueChartData= computed(() => {
-  // const currentData = mockDataByTimeframe[activeTab.value]
   const accent = settingsStore.activeAccentKey
 
   return {
@@ -99,7 +106,6 @@ const revenueChartData= computed(() => {
 })
 
 const userChartData= computed(() => {
-  // const currentData = mockDataByTimeframe[activeTab.value]
   const accent = settingsStore.activeAccentKey
 
   return {
@@ -130,7 +136,6 @@ const userChartData= computed(() => {
 })
 
 const billingChartData= computed(() => {
-  // const currentData = mockDataByTimeframe[activeTab.value]
   const accent = settingsStore.activeAccentKey
 
   return {
@@ -167,20 +172,55 @@ const baseChartOptions = {
   plugins: {
     legend: {
       position: 'top' as const,
-      labels: { font: { family: 'Inter, sans-serif', size: 12, weight: 'bold' as const } }
+      labels: { 
+        color: chartTextColor.value.textColor,
+        font: { family: 'Inter, sans-serif', size: 12, weight: 'bold' as const }
+       }
     }
+  },
+  Tooltip: {
+    titleColor: chartTextColor.value.textColor,
+    bodyColor: chartTextColor.value.textColor,
   }
 }
 
 const lineChartOptions: ChartOptions<'line'> = {
   ...baseChartOptions,
   scales: {
-    y: { beginAtZero: true }
+    x: {
+      ticks: {
+        color: chartTextColor.value.textColor
+      },
+    },
+    y: { 
+      ticks: {
+        color: chartTextColor.value.textColor
+      },
+      grid: {
+        color: chartTextColor.value.textColor
+      },
+      beginAtZero: true 
+    }
   }
 }
 
 const barChartOptions: ChartOptions<'bar'> = {
-  ...baseChartOptions
+  ...baseChartOptions,
+  scales: {
+    x: {
+      ticks: {
+        color: chartTextColor.value.textColor
+      },
+    },
+    y: { 
+      ticks: {
+        color: chartTextColor.value.textColor
+      },
+      grid: {
+        color: chartTextColor.value.textColor
+      }
+     }
+  }
 }
 
 const doughnutChartOptions: ChartOptions<'doughnut'> = {
