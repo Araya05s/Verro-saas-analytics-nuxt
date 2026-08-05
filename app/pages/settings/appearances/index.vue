@@ -11,7 +11,7 @@ import {
   type ChartOptions
 } from 'chart.js'
 import { Bar } from 'vue-chartjs'
-import { useSettingsStore, ACCENT_PALETTE, type ThemeMode, type SidebarStyle, type AccentColor } from '~/stores/settings'
+import { useSettingsStore, ACCENT_PALETTE, type SidebarStyle} from '~/stores/settings'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -26,7 +26,8 @@ const previewChartData = computed<ChartData<'bar'>>(() => ({
   datasets: [
     {
       label: 'Live Dynamic Metric',
-      backgroundColor: settingsStore.activeAccentHex,
+      backgroundColor: settingsStore.activeAccentKey.hex,
+      hoverBackgroundColor: settingsStore.activeAccentKey.hoverHex,
       borderRadius: 6,
       data: [45, 72, 58, 89, 63]
     }
@@ -57,14 +58,13 @@ const previewChartOptions: ChartOptions<'bar'> = {
         <p class="text-xs text-slate-500 dark:text-slate-400">Select how the portal renders on your display.</p>
       </div>
 
-      <div class="grid grid-cols-3 gap-4"
-        <!-- Light Mode Button -->
+      <div class="grid grid-cols-3 gap-4">
         <button
           @click="settingsStore.setThemeMode('light')"
-          class="flex flex-col items-center gap-3 rounded-2xl border p-4 text-center transition-all duration-200"
+          class="flex flex-col items-center gap-3 rounded-2xl border p-4 text-center"
           :class="[
             settingsStore.themeMode === 'light'
-              ? 'border-emerald-500 bg-emerald-50/20 ring-2 ring-emerald-500/10 shadow-xs'
+              ? 'border-accent-border bg-accent/5 ring-2 ring-accent/10 shadow-xs'
               : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
           ]"
         >
@@ -76,10 +76,10 @@ const previewChartOptions: ChartOptions<'bar'> = {
 
         <button
           @click="settingsStore.setThemeMode('dark')"
-          class="flex flex-col items-center gap-3 rounded-2xl border p-4 text-center transition-all duration-200"
+          class="flex flex-col items-center gap-3 rounded-2xl border p-4 text-center"
           :class="[
             settingsStore.themeMode === 'dark'
-              ? 'border-emerald-500 bg-emerald-50/20 ring-2 ring-emerald-500/10 shadow-xs'
+              ? 'border-accent-border bg-slate-500/20 ring-2 ring-accent/10 shadow-xs'
               : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
           ]"
         >
@@ -91,10 +91,10 @@ const previewChartOptions: ChartOptions<'bar'> = {
 
         <button
           @click="settingsStore.setThemeMode('system')"
-          class="flex flex-col items-center gap-3 rounded-2xl border p-4 text-center transition-all duration-200"
+          class="flex flex-col items-center gap-3 rounded-2xl border p-4 text-center"
           :class="[
             settingsStore.themeMode === 'system'
-              ? 'border-emerald-500 bg-emerald-50/20 ring-2 ring-emerald-500/10 shadow-xs'
+              ? 'border-accent-border bg-slate-500/20 ring-2 ring-accent/10 shadow-xs'
               : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
           ]"
         >
@@ -120,12 +120,12 @@ const previewChartOptions: ChartOptions<'bar'> = {
           class="flex items-center justify-between rounded-xl border p-4 text-xs font-bold capitalize transition-all"
           :class="[
             settingsStore.sidebarStyle === style
-              ? 'border-emerald-500 bg-emerald-50/20 text-emerald-700 dark:text-emerald-400 ring-2 ring-emerald-500/10'
+              ? 'border-accent-border bg-accent-50/20 text-accent ring-2 ring-accent/10'
               : 'border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-slate-300'
           ]"
         >
           <span>{{ style }} Layout</span>
-          <Icon v-if="settingsStore.sidebarStyle === style" name="heroicons:check-circle-20-solid" class="size-4 text-emerald-500" />
+          <Icon v-if="settingsStore.sidebarStyle === style" name="heroicons:check-circle-20-solid" class="size-4 text-accent" />
         </button>
       </div>
     </div>
@@ -160,9 +160,7 @@ const previewChartOptions: ChartOptions<'bar'> = {
         <div class="flex items-center justify-between">
           <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Real-time Interface Preview</span>
           <span
-            class="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-bold"
-            :style="{ backgroundColor: `${settingsStore.activeAccentHex}20`, color: settingsStore.activeAccentHex }"
-          >
+            class="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs text-white font-bold bg-accent dark:bg-slate-900 hover:bg-accent-hover border border-transparent dark:border-accent-border">
             Active Theme
           </span>
         </div>
@@ -173,8 +171,7 @@ const previewChartOptions: ChartOptions<'bar'> = {
               Accent variables immediately recalculate across UI buttons, inputs, and analytical visuals.
             </p>
             <button
-              class="w-full rounded-xl py-2.5 text-xs font-bold text-white shadow-xs transition-transform active:scale-95"
-              :style="{ backgroundColor: settingsStore.activeAccentHex }"
+              class="w-full rounded-xl py-2.5 text-xs font-bold text-white shadow-xs bg-accent hover:bg-accent-hover dark:bg-accent/80"
             >
               Interactive Component Button
             </button>

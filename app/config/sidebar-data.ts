@@ -57,10 +57,10 @@ export const sidebarNavigation: NavItem[] = [
         to: '/settings/profile',
       },
       // WIP: The dark mode is still in progress. Not all pages have been implemented with dark mode yet.
-      // {
-      //   title: 'Appearances',
-      //   to: '/settings/appearances',
-      // },
+      {
+        title: 'Appearances',
+        to: '/settings/appearances',
+      },
     ],
   },
 ]

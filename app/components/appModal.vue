@@ -47,20 +47,20 @@ const maxWidthClass = computed(() => {
           <div
             v-if="modelValue"
             @click.stop
-            class="w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-xl overflow-hidden transition-all"
+            class="w-full rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-slate-900 p-6 shadow-xl overflow-hidden transition-all"
             :class="maxWidthClass"
           >
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-accent-border">
               <slot name="header">
                 <div>
-                  <h3 v-if="title" class="text-base font-bold text-slate-900">{{ title }}</h3>
-                  <p v-if="subtitle" class="text-[11px] text-slate-400">{{ subtitle }}</p>
+                  <h3 v-if="title" class="text-base font-bold text-slate-900 dark:text-slate-50">{{ title }}</h3>
+                  <p v-if="subtitle" class="text-[11px] text-slate-400 dark:text-slate-300">{{ subtitle }}</p>
                 </div>
               </slot>
 
               <button
                 @click="handleClose"
-                class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors"
+                class="rounded-lg p-1.5 text-slate-400 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-700 dark:hover:text-slate-100 transition-colors"
                 aria-label="Close modal"
               >
                 <Icon name="heroicons:x-mark-20-solid" class="size-5" />
@@ -72,7 +72,7 @@ const maxWidthClass = computed(() => {
               <slot />
             </div>
 
-            <div v-if="$slots.footer" class="pt-4 border-t border-slate-100 flex justify-end gap-2">
+            <div v-if="$slots.footer" class="pt-4 border-t border-slate-100 dark:border-accent-border flex justify-end gap-2">
               <slot name="footer" :close="handleClose" />
             </div>
           </div>

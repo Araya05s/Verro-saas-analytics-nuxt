@@ -47,13 +47,13 @@ const handleUpgrade = (tier: SubscriptionTier) => {
   <div class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-bold text-slate-900">Subscription Plans</h1>
-        <p class="text-sm text-slate-500">Manage your subscription level and administrative billing tiers.</p>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-50">Subscription Plans</h1>
+        <p class="text-sm text-slate-500 dark:text-slate-300">Manage your subscription level and administrative billing tiers.</p>
       </div>
 
-      <div class="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 shadow-xs">
-        <span class="text-xs font-semibold text-slate-500">Active Tier:</span>
-        <span class="inline-flex items-center gap-1.5 rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-extrabold text-blue-600">
+      <div class="inline-flex items-center gap-2 rounded-2xl border border-slate-200 dark:border-accent-border bg-slate-50 dark:bg-slate-900 px-4 py-2 shadow-xs">
+        <span class="text-xs font-semibold text-slate-500 dark:text-slate-300">Active Tier:</span>
+        <span class="inline-flex items-center gap-1.5 rounded-lg bg-accent-light dark:bg-accent/10 px-2.5 py-1 text-xs font-extrabold text-accent">
           <Icon name="heroicons:shield-check-20-solid" class="size-4" />
           {{ billingStore.currentTier }}
         </span>
@@ -67,40 +67,40 @@ const handleUpgrade = (tier: SubscriptionTier) => {
         class="relative flex flex-col justify-between rounded-2xl border p-6 transition-all duration-200"
         :class="[
           billingStore.currentTier === plan.name
-            ? 'border-blue-600 bg-white ring-2 ring-blue-600/10 shadow-md'
+            ? 'border-accent bg-slate-50 dark:bg-accent/10 ring-2 ring-accent/10 shadow-md'
             : plan.isPopular
-              ? 'border-amber-300 bg-white shadow-xs'
-              : 'border-slate-200 bg-white shadow-xs hover:border-slate-300'
+              ? 'border-amber-300 bg-slate-50 dark:bg-accent/10  shadow-xs'
+              : 'border-accent-border bg-slate-50 dark:bg-accent/10 shadow-xs hover:border-slate-300'
         ]"
       >
         <!-- Highlight Tag for Popular / Active -->
         <div v-if="plan.isPopular && billingStore.currentTier !== plan.name" class="absolute -top-3 right-6">
-          <span class="inline-flex items-center gap-1 rounded-full bg-amber-400 px-3 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-900 shadow-xs">
+          <span class="inline-flex items-center gap-1 rounded-full bg-amber-400 px-3 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-900 border border-transparent dark:border-amber-600 shadow-xs">
             <Icon name="heroicons:star-solid" class="size-3" />
             Most Popular
           </span>
         </div>
 
         <div v-if="billingStore.currentTier === plan.name" class="absolute -top-3 right-6">
-          <span class="inline-flex items-center gap-1 rounded-full bg-blue-600 px-3 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-xs">
+          <span class="inline-flex items-center gap-1 rounded-full bg-blue-600 dark:bg-blue-950  px-3 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white border border-transparent dark:border-blue-600 shadow-xs">
             <Icon name="heroicons:check-circle-20-solid" class="size-3" />
             Current Plan
           </span>
         </div>
 
         <div>
-          <h2 class="text-xl font-bold text-slate-900">{{ plan.name }}</h2>
-          <p class="mt-1 text-xs text-slate-500 min-h-8">{{ plan.description }}</p>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-slate-50">{{ plan.name }}</h2>
+          <p class="mt-1 text-xs text-slate-500 dark:text-slate-300 min-h-8">{{ plan.description }}</p>
 
           <div class="mt-6 flex items-baseline gap-1">
-            <span class="text-4xl font-extrabold text-slate-900">${{ plan.price }}</span>
+            <span class="text-4xl font-extrabold text-slate-900 dark:text-slate-50">${{ plan.price }}</span>
             <span class="text-xs font-semibold text-slate-400">/ {{ plan.billingPeriod }}</span>
           </div>
 
           <div class="my-6 border-t border-slate-100"></div>
 
           <ul class="space-y-3">
-            <li v-for="feat in plan.features" :key="feat" class="flex items-start gap-2 text-xs text-slate-700">
+            <li v-for="feat in plan.features" :key="feat" class="flex items-start gap-2 text-xs text-slate-700 dark:text-slate-200">
               <Icon name="heroicons:check-20-solid" class="size-4 shrink-0 text-blue-600 mt-0.5" />
               <span>{{ feat }}</span>
             </li>
