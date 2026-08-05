@@ -3,13 +3,13 @@
 [![Nuxt 4](https://img.shields.io/badge/Nuxt-4.x-00DC82?logo=nuxt.js&logoColor=white)](https://nuxt.com/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Pinia](https://img.shields.io/badge/Pinia-State_Management-FFE56D?logo=vuedotjs&logoColor=black)](https://pinia.vuejs.org/)
-[![Vercel Status](https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel&logoColor=white)](https://your-app-name.vercel.app)
+[![Vercel Status](https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel&logoColor=white)](https://verro-saas-analytics-nuxt.vercel.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > A high-performance, responsive SaaS analytics platform featuring real-time data visualization filtering with state persistence and modular composable architecture. Built with Nuxt 4, Tailwind CSS, and Pinia.
 
 
-**[View Live Front-End Demo](https://your-app-name.vercel.app)** |
+**[View Live Front-End Demo](https://verro-saas-analytics-nuxt.vercel.app)** |
 
 ---
 
