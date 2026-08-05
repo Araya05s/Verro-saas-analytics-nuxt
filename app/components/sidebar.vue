@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { sidebarNavigation } from '~/config/sidebar-data'
-import { useSettingsStore} from '~/stores/settings'
-
-const settingsStore = useSettingsStore()
 
 const route = useRoute()
 
@@ -29,7 +26,7 @@ onMounted(() => {
 
 <template>
   <header class="sticky top-0 left-0 z-50 min-h-screen border-b border-accent-border bg-white dark:bg-slate-950 shadow-xs">
-      <div class="flex flex-col max-w-m w-2xs  px-6 py-4">
+      <div class="flex flex-col max-w-m w-2xs px-6 py-4">
         <div class="flex flex-col space-x-8">
           <!-- Logo -->
           <div class="flex items-center space-x-2 pb-4">

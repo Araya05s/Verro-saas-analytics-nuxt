@@ -7,14 +7,14 @@ import topbar from '~/components/topbar.vue';
   <div class="flex min-h-screen font-sans">
      <sidebar />
 
-     <div>
-      <!-- Top Bar -->
+    <!-- Top Bar -->
+    <div class="flex-1 flex flex-col min-w-0">
       <topbar />
       
       <!-- Main content -->
       <main class="mx-auto max-w-7xl px-6 py-8">
         <slot />
       </main>
-     </div>
+    </div>
   </div>
 </template>

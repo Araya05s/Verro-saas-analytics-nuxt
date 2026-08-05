@@ -2,7 +2,6 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
-  ssr: false,
   app: {
     head: {
       script: [
@@ -29,5 +28,5 @@ export default defineNuxtConfig({
   modules: ['@nuxt/icon', '@nuxt/eslint', '@pinia/nuxt'],
   nitro: {
     preset: 'static'
-  }
+  },
 })
