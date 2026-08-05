@@ -26,7 +26,15 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   vite: {    plugins: [      tailwindcss(),    ],  },
   modules: ['@nuxt/icon', '@nuxt/eslint', '@pinia/nuxt'],
-  nitro: {
-    preset: 'static'
+  routeRules: {
+    '/': { prerender: true },
   },
+  icon: {
+    serverBundle: {
+      collections: ['heroicons']
+    },
+    // Safe defaults
+    size: '24px',
+    class: 'icon'
+  }
 })

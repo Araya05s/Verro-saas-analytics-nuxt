@@ -27,7 +27,21 @@ const sortOrder = ref<'asc' | 'desc'>('asc')
 const currentPage = ref(1)
 const itemsPerPage = ref(props.pageSizeOptions[0] || 5)
 
-// Reset pagination when data or search length changes
+// Helper: Safely converts any key string to a valid, sanitized identifier for slots/keys
+const sanitizeKey = (key: keyof T | string): string => {
+  return String(key)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]/g, '_')
+}
+
+// Helper to safely extract row values without throwing on undefined
+const getCellValue = (row: T, key: keyof T | string) => {
+  if (!row) return ''
+  return row[key as string]
+}
+
+// Reset pagination when data length changes
 watch(
   () => props.data.length,
   () => {
@@ -90,8 +104,8 @@ const displayedPages = computed(() => {
         <thead class="bg-slate-50 dark:bg-accent/10 border-b border-slate-200 dark:border-accent-border text-slate-500 dark:text-slate-200 uppercase font-bold tracking-wider">
           <tr>
             <th
-              v-for="col in columns"
-              :key="String(col.key)"
+              v-for="(col, colIndex) in columns"
+              :key="`th-${sanitizeKey(col.key)}-${colIndex}`"
               @click="handleSort(String(col.key), col.sortable)"
               class="p-4 transition-colors select-none"
               :class="[col.sortable ? 'hover:bg-slate-100 dark:hover:bg-accent/20 hover:text-slate-900 dark:hover:text-slate-50' : '']"
@@ -117,18 +131,18 @@ const displayedPages = computed(() => {
 
         <tbody class="divide-y divide-slate-100 dark:divide-accent">
           <tr
-            v-for="row in paginatedData"
-            :key="row.id || JSON.stringify(row)"
+            v-for="(row, rowIndex) in paginatedData"
+            :key="`row-${rowIndex}`"
             @click="emit('row-click', row)"
             class="group transition-colors duration-150 hover:bg-slate-50/80 dark:hover:bg-accent/30 text-slate-900 dark:text-slate-50"
           >
             <td
-              v-for="col in columns"
-              :key="String(col.key)"
+              v-for="(col, colIndex) in columns"
+              :key="`td-${sanitizeKey(col.key)}-${colIndex}`"
               class="p-4 align-middle text-slate-700 dark:text-slate-200"
             >
-              <slot :name="`cell-${String(col.key)}`" :row="row" :value="row[col.key]">
-                {{ col.formatter ? col.formatter(row[col.key], row) : row[col.key] }}
+              <slot :name="`cell-${sanitizeKey(col.key)}`" :row="row" :value="getCellValue(row, col.key)">
+                {{ col.formatter ? col.formatter(getCellValue(row, col.key), row) : getCellValue(row, col.key) }}
               </slot>
             </td>
           </tr>
@@ -192,7 +206,7 @@ const displayedPages = computed(() => {
         <button
           @click="currentPage++"
           :disabled="currentPage >= totalPages"
-          class="rounded-lg border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/5 px-2.5 py-1 text-slate-600 dark:text-slate-200 shadow-xs hover:bg-slate-50 dark:hover:bg-accent disabled:opacity-30 disabled:hover:bg-white dark:disabled:hover:bg-accent-20""
+          class="rounded-lg border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/5 px-2.5 py-1 text-slate-600 dark:text-slate-200 shadow-xs hover:bg-slate-50 dark:hover:bg-accent disabled:opacity-30 disabled:hover:bg-white dark:disabled:hover:bg-accent-20"
           title="Next Page"
         >
           &gt;

@@ -30,9 +30,9 @@ const columns: Column<Invoice>[] = [
   { key: 'amount', label: 'Amount', sortable: true },
   { key: 'status', label: 'Status', sortable: true },
 ]
+const query = searchQuery.value.trim().toLowerCase()
 
 const filteredRevenues = computed(() => {
-  const query = searchQuery.value.trim().toLowerCase()
 
   return billingStore.invoices
   .map((inv) => {
@@ -50,7 +50,6 @@ const filteredRevenues = computed(() => {
 
   }).filter(
     (inv) =>
-
       inv.id.toLowerCase().includes(query) ||
       inv.client.toLowerCase().includes(query) ||
       inv.status.toLowerCase().includes(query) ||
@@ -154,7 +153,6 @@ const pending = ref<boolean>(true)
 onMounted(() => {
   nextTick(() => updatePill())
   darkMode.value = settingsStore.prefersDark
-  nextTick(() => updatePill())
   window.addEventListener('resize', updatePill)
   setTimeout(() => {
     pending.value = false
@@ -165,9 +163,9 @@ onUnmounted(() => {
   window.removeEventListener('resize', updatePill)
 })
 
-const formatCurrency = (val: unknown): string => {
-  return typeof val === 'number' ? val.toLocaleString() : String(val ?? '')
-}
+// const formatCurrency = (val: unknown): string => {
+//   return typeof val === 'number' ? val.toLocaleString() : String(val ?? '')
+// }
 </script>
 
 <template>
@@ -249,15 +247,15 @@ const formatCurrency = (val: unknown): string => {
         />
     </div>
 
-    <div class="rounded-2xl border border-slate-200 dark:border-accent bg-white dark:bg-accent/5 p-6 shadow-xs">
+    <div class="rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-slate-800 p-6 shadow-xs">
       <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50 mb-4">Revenue Stream Distribution</h2>
-      <div class="h-64">
+        <div class="h-64 w-full rounded-xl border border-dashed border-slate-20 dark:border-slate-200 bg-slate-50/50 dark:bg-slate-950/50 p-4">
         <ClientOnly>
           <Bar :data="chartData" :options="chartOptions" />
         </ClientOnly>
       </div>
     </div>
-
+    
     <div class="rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/5 p-6 shadow-xs overflow-hidden">
       <div class="mb-4">
         <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50">Filtered Transactions</h2>
@@ -275,7 +273,7 @@ const formatCurrency = (val: unknown): string => {
         </template>
 
         <template #cell-amount="{ value }">
-          <span class="font-extrabold text-slate-900 dark:text-accent">${{ formatCurrency(value) }}</span>
+          <span class="font-extrabold text-slate-900 dark:text-accent">${{ value }}</span>
         </template>
 
         <template #cell-status="{ value }">

@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { Line } from 'vue-chartjs'
 import type { TimeFilter } from '~/types/analytics'
-import type { ChartData, ChartOptions, ChartDataset } from 'chart.js'
+import type { ChartData, ChartDataset } from 'chart.js'
 import { useSettingsStore } from '~/stores/settings'
 
 const settingsStore = useSettingsStore()
@@ -147,7 +147,6 @@ const chartOptions= ref({
         <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-50">Analytics Overview</h1>
         <p class="text-sm text-slate-500 dark:text-slate-300">Cross-metric performance overview and key drivers.</p>
       </div>
-
       <!-- Sliding Horizontal Navigation Bar -->
         <div class="rounded-2xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 p-1.5 shadow-xs">
           

@@ -60,6 +60,7 @@ const pending = ref<boolean>(true)
 
 onMounted(() => {
   nextTick(() => updatePill())
+  darkMode.value = settingsStore.prefersDark
   window.addEventListener('resize', updatePill)
   setTimeout(() => {
     pending.value = false
@@ -196,7 +197,7 @@ const tierChartOptions = {
       <!-- Tier Breakdown Doughnut -->
       <div class="rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-slate-900 p-6 shadow-xs">
         <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50 mb-4">User Tier Distribution</h2>
-        <div class="h-56">
+        <div class="h-56 w-full">
           <ClientOnly>
             <Doughnut :data="tierChartData" :options="tierChartOptions" />
           </ClientOnly>

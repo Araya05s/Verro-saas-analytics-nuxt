@@ -17,6 +17,7 @@ const selectedPlan = ref<CustomerPlan | 'All'>('All')
 
 // Live Filter computation
 const filteredCustomers = computed(() => {
+  
   return customers.value.filter((c) => {
     const matchesSearch =
       c.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
@@ -30,12 +31,12 @@ const filteredCustomers = computed(() => {
 })
 
 const columns: Column<Customer>[] = [
-  { key: 'name', label: 'Customer', sortable: true, formatter: (val) => `$${Number(val).toLocaleString()}` },
-  { key: 'plan', label: 'Plan Level', sortable: true, formatter: (val) => `$${Number(val).toLocaleString()}` },
-  { key: 'status', label: 'Status', sortable: true, formatter: (val) => `$${Number(val).toLocaleString()}` },
-  { key: 'arr', label: 'ARR ($)', sortable: true, formatter: (val) => `$${Number(val).toLocaleString()}` },
-  { key: 'usagePercent', label: 'Usage', sortable: true, formatter: (val) => `$${Number(val).toLocaleString()}` },
-  { key: 'action', label: 'Details', formatter: (val) => `$${Number(val).toLocaleString()}` }
+  { key: 'name', label: 'Customer', sortable: true },
+  { key: 'plan', label: 'PlanLevel', sortable: true },
+  { key: 'status', label: 'Status', sortable: true },
+  { key: 'arr', label: 'ARR', sortable: true, formatter: (val) => typeof val === 'number' ? `$${val.toLocaleString()}` : val },
+  { key: 'usagePercent', label: 'Usage', sortable: true, formatter: (val) => typeof val === 'number' ? `${val}%` : val },
+  { key: 'action', label: 'Details' }
 ]
 
 const navigateToDetail = (cust: Customer) => {
@@ -86,7 +87,7 @@ const formatPercent = (val: unknown): string => {
         <span class="text-xs font-medium text-slate-500 dark:text-slate-200 whitespace-nowrap">Plan Level:</span>
         <select
           v-model="selectedPlan"
-          class="w-full sm:w-44 rounded-xl border border-slate-200 dark:border-accent-border bg-slate-50/50 dark:bg-accent/20 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 outline-hidden transition-all focus:border-accent focus:bg-white dark:focus:bg-accent/20 focus:ring-2 focus:ring-accent "
+          class="w-full sm:w-44 rounded-xl border border-slate-200 dark:border-accent-border bg-slate-50/50 dark:bg-accent/20 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 outline-hidden transition-all focus:border-accent focus:bg-white dark:focus:bg-accent/20 focus:ring-2 focus:ring-accent"
         >
           <option value="All">All Plans</option>
           <option value="Enterprise">Enterprise</option>

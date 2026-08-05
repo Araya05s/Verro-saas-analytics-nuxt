@@ -52,7 +52,6 @@ onUnmounted(() => {
         :key="item.id"
         class="rounded-md border border-slate-500 bg-slate-50 dark:bg-slate-800 p-2.5 transition-colors hover:bg-slate-100 dark:hover:bg-slate-900"
         :class="{ 'border-l-2': !item.read }"
-        :style="{ 'border-left-color': settingsStore.activeAccentHex}"
       >
         <div class="flex items-center justify-between">
           <p class="font-medium text-slate-900 dark:text-slate-50">{{ item.title }}</p>
@@ -66,7 +65,7 @@ onUnmounted(() => {
       <!-- Empty State -->
       <div
         v-if="store.notifications.length === 0"
-        class="py-6 text-center text-xs text-[var(--text-secondary)]"
+        class="py-6 text-center text-xs text-(--text-secondary)"
       >
         No updates right now.
       </div>

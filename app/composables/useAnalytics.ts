@@ -5,7 +5,7 @@ export function useAnalyticsApi() {
   // Simulated API fetcher method
   async function OverviewMetrics(filter: TimeFilter): Promise<OverviewMetrics> {
     // Simulate API network latency (200ms delay)
-    await new Promise((resolve) => setTimeout(resolve, 200))
+    await new Promise((resolve, status) => setTimeout(resolve, 200, {lazy: true}))
 
     const multiplier = filter === '24h' ? 0.1 : filter === '7d' ? 0.3 : filter === '30d' ? 1 : 3.5
 
