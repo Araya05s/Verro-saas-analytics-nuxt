@@ -13,7 +13,7 @@ onMounted(() => {
 
 <template>
     <header class="sticky top-0 z-25 border-b border-slate-200  dark:border-accent bg-white dark:bg-slate-950 shadow-xs">
-      <div class="mx-auto flex w-5xl items-center flex-end justify-between px-6 py-4">
+      <div class="mx-auto flex w-7xl items-center flex-end justify-between px-6 py-4">
        
         <div class="flex ml-auto items-center space-x-4">
           
