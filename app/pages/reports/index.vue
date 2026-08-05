@@ -19,7 +19,6 @@ import { useReportsStore } from '~/stores/reports'
 import TableData, { type Column } from '~/components/tableData.vue'
 import AppModal from '~/components/appModal.vue'
 import { useSettingsStore } from '~/stores/settings'
-import { color } from 'chart.js/helpers'
 
 const settingsStore = useSettingsStore()
 
@@ -59,7 +58,10 @@ const updatePill = () => {
   }
 }
 
+const darkMode = ref()
+
 onMounted(() => {
+  darkMode.value = settingsStore.prefersDark
   nextTick(() => updatePill())
   window.addEventListener('resize', updatePill)
 })
@@ -73,10 +75,8 @@ watch(activeTab, () => {
 })
 
 const chartTextColor = computed (() => {
-  const themeMode = settingsStore.themeMode
-
   return {
-    textColor: themeMode=='dark' ? '#cbd5e1' : '#334155'
+    textColor: darkMode ? '#cbd5e1' : '#334155'
   }
 })
 

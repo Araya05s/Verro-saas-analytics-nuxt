@@ -83,6 +83,8 @@ export const useSettingsStore = defineStore('settings', () => {
   const sidebarStyle = ref<SidebarStyle>('expanded')
   const accentColor = ref<AccentColor>('green')
 
+  const prefersDark = ref()
+
   const activeAccentKey = computed<AccentColorOption>(() => {
     const found = ACCENT_PALETTE.find(item => item.key === accentColor.value)
     return found ?? ACCENT_PALETTE[0]!
@@ -98,8 +100,8 @@ export const useSettingsStore = defineStore('settings', () => {
     if (themeMode.value === 'dark') {
       root.classList.add('dark')
     } else if (themeMode.value === 'system') {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      if (prefersDark) {
+      prefersDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+      if (prefersDark.value) {
         root.classList.add('dark')
       }
     }
@@ -126,6 +128,7 @@ export const useSettingsStore = defineStore('settings', () => {
   return {
     profile,
     themeMode,
+    prefersDark,
     sidebarStyle,
     accentColor,
     activeAccentKey,
