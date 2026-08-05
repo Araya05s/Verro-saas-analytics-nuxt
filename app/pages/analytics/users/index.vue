@@ -1,7 +1,7 @@
 <!-- pages/analytics/users.vue -->
 <script setup lang="ts">
 import { Doughnut } from 'vue-chartjs'
-import { TIME_FILTERS, type TimeFilter } from '~/types/analytics'
+import type { TimeFilter } from '~/types/analytics'
 import { useSettingsStore } from '~/stores/settings'
 
 const settingsStore = useSettingsStore()
@@ -16,6 +16,63 @@ const userStats = computed(() => {
     returningUsers: Math.round(8930 * factor),
     activeUsers: Math.round(12450 * (f === '24h' ? 0.5 : 1)),
     conversionRate: (3.8 * (f === '12m' ? 1.2 : 1)).toFixed(1)
+  }
+})
+
+const locations = [
+  { country: 'United States', code: 'US', share: '42%', count: '5,229' },
+  { country: 'Germany', code: 'DE', share: '18%', count: '2,241' },
+  { country: 'United Kingdom', code: 'UK', share: '14%', count: '1,743' },
+  { country: 'Indonesia', code: 'ID', share: '12%', count: '1,494' },
+  { country: 'Others', code: 'WW', share: '14%', count: '1,743' }
+]
+
+
+const tabs: { key: TimeFilter; label: string;}[] = [
+  { key: '24h', label: '24H'},
+  { key: '7d', label: '7D'},
+  { key: '30d', label: '30D'},
+  { key: '12m', label: '12M'}
+]
+
+const tabRefs = ref<HTMLElement[]>([])
+const pillStyle = reactive({ left: '0px', width: '0px' })
+
+const darkMode = ref()
+
+const updatePill = () => {
+  const index = tabs.findIndex((t) => t.key === activeTab.value)
+  const currentEl = tabRefs.value[index]
+  if (currentEl) {
+    pillStyle.left = `${currentEl.offsetLeft}px`
+    pillStyle.width = `${currentEl.offsetWidth}px`
+  }
+}
+
+const activeTab = ref<TimeFilter>('7d')
+
+watch(activeTab, () => {
+  nextTick(() => updatePill())
+})
+
+// Fake pending
+const pending = ref<boolean>(true)
+
+onMounted(() => {
+  nextTick(() => updatePill())
+  window.addEventListener('resize', updatePill)
+  setTimeout(() => {
+    pending.value = false
+  }, 500)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updatePill)
+})
+
+const chartTextColor = computed (() => {
+  return {
+    textColor: darkMode ? '#cbd5e1' : '#334155'
   }
 })
 
@@ -38,60 +95,20 @@ const tierChartData = computed(() => {
 const tierChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
-  plugins: { legend: { position: 'right' as const } }
-}
-
-const locations = [
-  { country: 'United States', code: 'US', share: '42%', count: '5,229' },
-  { country: 'Germany', code: 'DE', share: '18%', count: '2,241' },
-  { country: 'United Kingdom', code: 'UK', share: '14%', count: '1,743' },
-  { country: 'Indonesia', code: 'ID', share: '12%', count: '1,494' },
-  { country: 'Others', code: 'WW', share: '14%', count: '1,743' }
-]
-
-
-const tabs: { key: TimeFilter; label: string;}[] = [
-  { key: '24h', label: '24H'},
-  { key: '7d', label: '7D'},
-  { key: '30d', label: '30D'},
-  { key: '12m', label: '12M'}
-]
-
-const tabRefs = ref<HTMLElement[]>([])
-const pillStyle = reactive({ left: '0px', width: '0px' })
-
-const updatePill = () => {
-  const index = tabs.findIndex((t) => t.key === activeTab.value)
-  const currentEl = tabRefs.value[index]
-  if (currentEl) {
-    pillStyle.left = `${currentEl.offsetLeft}px`
-    pillStyle.width = `${currentEl.offsetWidth}px`
+  plugins: { 
+    legend: { 
+      labels: { 
+        color: chartTextColor.value.textColor,
+        font: { family: 'Inter, sans-serif', size: 12, weight: 'bold' as const }
+      },
+      position: 'right' as const 
+    } 
+  },
+  Tooltip: {
+    titleColor: chartTextColor.value.textColor,
+    bodyColor: chartTextColor.value.textColor,
   }
 }
-
-const activeTab = ref<TimeFilter>('7d')
-
-onMounted(() => {
-  nextTick(() => updatePill())
-  window.addEventListener('resize', updatePill)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', updatePill)
-})
-
-watch(activeTab, () => {
-  nextTick(() => updatePill())
-})
-
-// Fake pending
-const pending = ref<boolean>(true)
-
-onMounted(() => {
-  setTimeout(() => {
-    pending.value = false
-  }, 500)
-})
 
 </script>
 

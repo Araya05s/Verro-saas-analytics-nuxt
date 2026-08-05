@@ -13,17 +13,6 @@ type LineDataset = ChartDataset<'line'>
 // Reactive data mapped to active time filter
 const { OverviewMetrics } = useAnalyticsApi()
 
-const chartOptions: ChartOptions<'line'> = {
-  responsive: true,
-  maintainAspectRatio: false,
-  // WIP: Intro Line Chart Animation
-  // animations: {
-  //   duration: 2000,
-  //   easing: 'easeOutBounce'
-  // },
-  plugins: { legend: { display: true, position: 'top' as const } },
-}
-
 const tabs: { key: TimeFilter; label: string;}[] = [
   { key: '24h', label: '24H'},
   { key: '7d', label: '7D'},
@@ -43,7 +32,10 @@ const updatePill = () => {
   }
 }
 
+const darkMode = ref()
+
 onMounted(() => {
+  darkMode.value = settingsStore.prefersDark
   nextTick(() => updatePill())
   window.addEventListener('resize', updatePill)
 })
@@ -54,6 +46,12 @@ onUnmounted(() => {
 
 watch(activeTab, () => {
   nextTick(() => updatePill())
+})
+
+const chartTextColor = computed (() => {
+  return {
+    textColor: darkMode ? '#cbd5e1' : '#334155'
+  }
 })
 
 const { data: overviewData, status } = await useAsyncData(
@@ -101,6 +99,42 @@ const lineChartData = computed<ChartData<'line'>>(() => {
   return {
     labels: chartData.labels ?? [],
     datasets: [revenueDataset, growthDataset],
+  }
+})
+
+const chartOptions= ref({
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: { 
+    legend: { 
+      labels: { 
+        color: chartTextColor.value.textColor,
+        font: { family: 'Inter, sans-serif', size: 12, weight: 'bold' as const }
+      },
+      position: 'top' as const 
+    } 
+  },
+  Tooltip: {
+    titleColor: chartTextColor.value.textColor,
+    bodyColor: chartTextColor.value.textColor,
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: chartTextColor.value.textColor
+      },
+      stacked: true,
+      grid: { display: false }
+    },
+    y: {
+      ticks: {
+        color: chartTextColor.value.textColor,
+      },
+      grid: {
+        color: chartTextColor.value.textColor
+      },
+      stacked: true,
+    }
   }
 })
 </script>

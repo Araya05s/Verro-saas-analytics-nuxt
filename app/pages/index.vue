@@ -22,26 +22,53 @@ ChartJS.register(
   LinearScale,
 )
 
-const chartOptions = ref({
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      stacked: true,
-      grid: { display: false }
-    },
-    y: {
-      stacked: true,
-      grid: {
-        color: '#515559'
-      },
-      ticks: { display: false }
-    }
-  }
-})
-
 type timeFilterKey = '24h' | '7d' | '30d' | '12m'
 const activeTab = ref<timeFilterKey>('7d')
+
+const tabs: { key: timeFilterKey; label: string;}[] = [
+  { key: '24h', label: '24H'},
+  { key: '7d', label: '7D'},
+  { key: '30d', label: '30D'},
+  { key: '12m', label: '12M'}
+]
+
+const tabRefs = ref<HTMLElement[]>([])
+const pillStyle = reactive({ left: '0px', width: '0px' })
+
+const updatePill = () => {
+  const index = tabs.findIndex((t) => t.key === activeTab.value)
+  const currentEl = tabRefs.value[index]
+  if (currentEl) {
+    pillStyle.left = `${currentEl.offsetLeft}px`
+    pillStyle.width = `${currentEl.offsetWidth}px`
+  }
+}
+
+const darkMode = ref()
+
+onMounted(() => {
+  darkMode.value = settingsStore.prefersDark
+  nextTick(() => updatePill())
+  window.addEventListener('resize', updatePill)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updatePill)
+})
+
+watch(activeTab, () => {
+  nextTick(() => updatePill())
+})
+
+onMounted(() => {
+  settingsStore.applyThemeToDOM()
+})
+
+const chartTextColor = computed (() => {
+  return {
+    textColor: darkMode ? '#cbd5e1' : '#334155'
+  }
+})
 
 const mockDataByTimeframe: Record<timeFilterKey, { labels: string[]; gross: number[]; net: number[] }> = {
   '24h': {
@@ -91,40 +118,40 @@ const chartData = computed(() => {
   }
 })
 
-const tabs: { key: timeFilterKey; label: string;}[] = [
-  { key: '24h', label: '24H'},
-  { key: '7d', label: '7D'},
-  { key: '30d', label: '30D'},
-  { key: '12m', label: '12M'}
-]
-
-const tabRefs = ref<HTMLElement[]>([])
-const pillStyle = reactive({ left: '0px', width: '0px' })
-
-const updatePill = () => {
-  const index = tabs.findIndex((t) => t.key === activeTab.value)
-  const currentEl = tabRefs.value[index]
-  if (currentEl) {
-    pillStyle.left = `${currentEl.offsetLeft}px`
-    pillStyle.width = `${currentEl.offsetWidth}px`
+const chartOptions = ref({
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: 'top' as const,
+      labels: { 
+        color: chartTextColor.value.textColor,
+        font: { family: 'Inter, sans-serif', size: 12, weight: 'bold' as const }
+       }
+    }
+  },
+  Tooltip: {
+    titleColor: chartTextColor.value.textColor,
+    bodyColor: chartTextColor.value.textColor,
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: chartTextColor.value.textColor
+      },
+      stacked: true,
+      grid: { display: false }
+    },
+    y: {
+      ticks: {
+        color: chartTextColor.value.textColor,
+      },
+      grid: {
+        color: chartTextColor.value.textColor
+      },
+      stacked: true,
+    }
   }
-}
-
-onMounted(() => {
-  nextTick(() => updatePill())
-  window.addEventListener('resize', updatePill)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', updatePill)
-})
-
-watch(activeTab, () => {
-  nextTick(() => updatePill())
-})
-
-onMounted(() => {
-  settingsStore.applyThemeToDOM()
 })
 </script>
 

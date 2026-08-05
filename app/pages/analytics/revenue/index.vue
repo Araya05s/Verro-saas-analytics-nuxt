@@ -58,6 +58,39 @@ const filteredRevenues = computed(() => {
   )
 })
 
+const tabs: { key: TimeFilter; label: string;}[] = [
+  { key: '24h', label: '24H'},
+  { key: '7d', label: '7D'},
+  { key: '30d', label: '30D'},
+  { key: '12m', label: '12M'}
+]
+
+const tabRefs = ref<HTMLElement[]>([])
+const pillStyle = reactive({ left: '0px', width: '0px' })
+
+const updatePill = () => {
+  const index = tabs.findIndex((t) => t.key === activeTab.value)
+  const currentEl = tabRefs.value[index]
+  if (currentEl) {
+    pillStyle.left = `${currentEl.offsetLeft}px`
+    pillStyle.width = `${currentEl.offsetWidth}px`
+  }
+}
+
+const activeTab = ref<TimeFilter>('7d')
+
+const darkMode = ref()
+
+watch(activeTab, () => {
+  nextTick(() => updatePill())
+})
+
+const chartTextColor = computed (() => {
+  return {
+    textColor: darkMode ? '#cbd5e1' : '#334155'
+  }
+})
+
 const chartData = computed(() => {
   // const currentData = mockDataByTimeframe[activeTab.value]
   const accent = settingsStore.activeAccentKey
@@ -82,50 +115,54 @@ const chartData = computed(() => {
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
-  scales: { x: { stacked: true }, y: { stacked: true } }
-}
-
-const tabs: { key: TimeFilter; label: string;}[] = [
-  { key: '24h', label: '24H'},
-  { key: '7d', label: '7D'},
-  { key: '30d', label: '30D'},
-  { key: '12m', label: '12M'}
-]
-
-const tabRefs = ref<HTMLElement[]>([])
-const pillStyle = reactive({ left: '0px', width: '0px' })
-
-const updatePill = () => {
-  const index = tabs.findIndex((t) => t.key === activeTab.value)
-  const currentEl = tabRefs.value[index]
-  if (currentEl) {
-    pillStyle.left = `${currentEl.offsetLeft}px`
-    pillStyle.width = `${currentEl.offsetWidth}px`
+  plugins: { 
+    legend: { 
+      labels: { 
+        color: chartTextColor.value.textColor,
+        font: { family: 'Inter, sans-serif', size: 12, weight: 'bold' as const }
+      },
+      position: 'top' as const 
+    } 
+  },
+  Tooltip: {
+    titleColor: chartTextColor.value.textColor,
+    bodyColor: chartTextColor.value.textColor,
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: chartTextColor.value.textColor
+      },
+      stacked: true,
+      grid: { display: false }
+    },
+    y: {
+      ticks: {
+        color: chartTextColor.value.textColor,
+      },
+      grid: {
+        color: chartTextColor.value.textColor
+      },
+      stacked: true,
+    }
   }
 }
-
-const activeTab = ref<TimeFilter>('7d')
-
-onMounted(() => {
-  nextTick(() => updatePill())
-  window.addEventListener('resize', updatePill)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', updatePill)
-})
-
-watch(activeTab, () => {
-  nextTick(() => updatePill())
-})
 
 // Fake pending
 const pending = ref<boolean>(true)
 
 onMounted(() => {
+  nextTick(() => updatePill())
+  darkMode.value = settingsStore.prefersDark
+  nextTick(() => updatePill())
+  window.addEventListener('resize', updatePill)
   setTimeout(() => {
     pending.value = false
   }, 500)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updatePill)
 })
 
 const formatCurrency = (val: unknown): string => {
