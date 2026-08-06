@@ -448,24 +448,24 @@ const generateAndDownloadExcel = () => {
     <AppModal v-model="isExportModalOpen" max-width="sm">
       <template #header>
         <div class="flex items-center gap-2">
-          <div class="size-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+          <div class="size-8 rounded-lg bg-accent-light dark:bg-accent/10 flex items-center justify-center text-accent border border-transparent dark:border-accent-border">
             <Icon name="heroicons:document-text-20-solid" class="size-5" />
           </div>
-          <h3 class="text-sm font-bold text-slate-900">Generating Excel File</h3>
+          <h3 class="text-sm font-bold text-slate-900 dark:text-slate-50">Generating Excel File</h3>
         </div>
       </template>
 
       <div class="py-4 space-y-4">
-        <p class="text-xs text-slate-500">Compiling financial metrics and datasets into XLSX workbook format...</p>
+        <p class="text-xs text-slate-500 dark:text-slate-300">Compiling financial metrics and datasets into XLSX workbook format...</p>
 
         <div class="space-y-1.5">
           <div class="flex justify-between text-[11px] font-bold">
-            <span class="text-slate-600">{{ isExporting ? 'Building Sheets...' : 'Completed!' }}</span>
-            <span class="text-emerald-600 font-mono">{{ exportProgress }}%</span>
+            <span class="text-slate-600 dark:text-slate-200">{{ isExporting ? 'Building Sheets...' : 'Completed!' }}</span>
+            <span class="text-accent font-mono">{{ exportProgress }}%</span>
           </div>
           <div class="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
             <div
-              class="h-full bg-emerald-500 transition-all duration-150 ease-out"
+              class="h-full bg-accent transition-all duration-150 ease-out"
               :style="{ width: `${exportProgress}%` }"
             />
           </div>
@@ -476,7 +476,7 @@ const generateAndDownloadExcel = () => {
         <button
           @click="close"
           :disabled="isExporting"
-          class="rounded-xl border border-slate-200 px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-40"
+          class="rounded-xl border border-accent-border px-4 py-2 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-accent/20 disabled:opacity-40"
         >
           {{ isExporting ? 'Processing...' : 'Close' }}
         </button>
