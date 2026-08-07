@@ -8,6 +8,10 @@ onMounted(() => {
 })
 
 useHead({
+  title: 'Veero | Front-End Saas Analytics',
+  meta: [
+    { name: 'description', content: 'A high-performance, responsive SaaS analytics platform featuring real-time data visualization filtering with state persistence and modular composable architecture. Built with Nuxt 4, Tailwind CSS, and Pinia.' },
+  ],
   style: [
     {
       id: 'dynamic-accent-vars',
