@@ -106,7 +106,7 @@ const previewChartOptions: ChartOptions<'bar'> = {
       </div>
     </div>
 
-    <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs space-y-4">
+    <div class="hidden md:flex flex-col visible rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs space-y-4">
       <div>
         <h2 class="text-base font-bold text-slate-900 dark:text-slate-50">Sidebar Layout Style</h2>
         <p class="text-xs text-slate-500 dark:text-slate-400">Choose navigation density according to your preference.</p>

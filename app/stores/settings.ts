@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
+import { useBreakpoints, breakpointsTailwind } from '@vueuse/core'
 
 export type ThemeMode = 'light' | 'dark' | 'system'
-export type SidebarStyle = 'expanded' | 'collapsed' | 'compact'
+export type SidebarStyle = 'expanded' | 'collapsed' | 'compact' | 'auto'
 export type AccentColor = 'green' | 'blue' | 'amber' | 'purple'
 
 export interface CompanyProfile {
@@ -124,6 +125,23 @@ export const useSettingsStore = defineStore('settings', () => {
     accentColor.value = color
     applyThemeToDOM()
   }
+
+  // Breakpoints to automatically adjust the sidebar style based on the tailwind's width
+  const breakpoints = useBreakpoints(breakpointsTailwind)
+  const isDesktop = breakpoints.greaterOrEqual('lg')
+  const isTablet = breakpoints.between('sm', 'lg')
+
+  watch(isTablet, (matches) => {
+    if (matches) {
+      sidebarStyle.value = 'compact'
+    }
+  }, { immediate: true })
+
+  watch(isDesktop, (matches) => {
+    if (matches) {
+      sidebarStyle.value = 'expanded'
+    }
+  })
 
   return {
     profile,

@@ -58,11 +58,11 @@ onUnmounted(() => {
             <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-accent dark:bg-slate-900 text-lg font-bold text-white border border-transparent dark:border-accent-border shadow-sm">
               V
             </div>
-            <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Verro <span class="text-accent">Analytics</span></span>
+            <span class="flex text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Verro <span class="text-accent">Analytics</span></span>
           </div>
 
           <!-- Nav Links -->
-          <nav class="hidden space-y-1 md:flex flex-col"
+          <nav class="flex flex-col space-y-1"
           :class="[
             sidebarStyle === 'expanded' ? 'max-w-60' : '',
             sidebarStyle === 'compact' ? 'max-w-10' : '',
@@ -92,13 +92,13 @@ onUnmounted(() => {
                 >
                   <div class="flex items-center gap-3">
                     <Icon v-if="item.icon" :name="item.icon" class="w-5 h-5 shrink-0" />
-                    <span :class="sidebarStyle === 'compact' ? 'invisible' : ''">{{ item.title }}</span>
+                    <span :class="sidebarStyle === 'compact' ? 'hidden' : ''">{{ item.title }}</span>
                   </div>
                   
                   <Icon 
                     name="heroicons:chevron-down-20-solid" 
                     class="w-4 h-4 transition-transform duration-200"
-                    :class="sidebarStyle === 'compact' ? 'invisible' : { 'rotate-180': openDropdowns === item.title }"
+                    :class="sidebarStyle === 'compact' ? 'hidden' : { 'rotate-180': openDropdowns === item.title }"
                   />
                 </button>
               </div>
