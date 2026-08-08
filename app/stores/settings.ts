@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { useBreakpoints, breakpointsTailwind } from '@vueuse/core'
 
 export type ThemeMode = 'light' | 'dark' | 'system'
-export type SidebarStyle = 'expanded' | 'collapsed' | 'compact' | 'auto'
+export type SidebarStyle = 'expanded' | 'collapsed' | 'compact'
 export type AccentColor = 'green' | 'blue' | 'amber' | 'purple'
 
 export interface CompanyProfile {
@@ -81,7 +81,7 @@ export const useSettingsStore = defineStore('settings', () => {
   })
 
   const themeMode = ref<ThemeMode>('system')
-  const sidebarStyle = ref<SidebarStyle>('expanded')
+  const sidebarStyle = ref<SidebarStyle>('collapsed')
   const accentColor = ref<AccentColor>('green')
 
   const prefersDark = ref()
@@ -130,6 +130,17 @@ export const useSettingsStore = defineStore('settings', () => {
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isDesktop = breakpoints.greaterOrEqual('lg')
   const isTablet = breakpoints.between('sm', 'lg')
+
+  onMounted(() => {
+    // Mathcing the sidebar style with the width of the screen
+    const isLg = window.matchMedia('(min-width: 1024px)').matches
+
+    if (isLg) {
+      sidebarStyle.value = 'expanded'
+    } else {
+      sidebarStyle.value = 'compact'
+    }
+  })
 
   watch(isTablet, (matches) => {
     if (matches) {
