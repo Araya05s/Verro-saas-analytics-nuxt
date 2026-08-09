@@ -81,8 +81,9 @@ export const useSettingsStore = defineStore('settings', () => {
   })
 
   const themeMode = ref<ThemeMode>('system')
-  const sidebarStyle = ref<SidebarStyle>('collapsed')
+  const sidebarStyle = ref<SidebarStyle>('expanded')
   const accentColor = ref<AccentColor>('green')
+  const isSidebarOpen = useState<boolean>('sidebar-isOpen', () => false)
 
   const prefersDark = ref()
 
@@ -126,33 +127,14 @@ export const useSettingsStore = defineStore('settings', () => {
     applyThemeToDOM()
   }
 
-  // Breakpoints to automatically adjust the sidebar style based on the tailwind's width
-  const breakpoints = useBreakpoints(breakpointsTailwind)
-  const isDesktop = breakpoints.greaterOrEqual('lg')
-  const isTablet = breakpoints.between('sm', 'lg')
+  const toggleSidebarOpen = () => {
+    isSidebarOpen.value = !isSidebarOpen.value
+  }
 
-  onMounted(() => {
-    // Mathcing the sidebar style with the width of the screen
-    const isLg = window.matchMedia('(min-width: 1024px)').matches
+  const toggleSidebarClose = () => {
+    isSidebarOpen.value = false
+  }
 
-    if (isLg) {
-      sidebarStyle.value = 'expanded'
-    } else {
-      sidebarStyle.value = 'compact'
-    }
-  })
-
-  watch(isTablet, (matches) => {
-    if (matches) {
-      sidebarStyle.value = 'compact'
-    }
-  }, { immediate: true })
-
-  watch(isDesktop, (matches) => {
-    if (matches) {
-      sidebarStyle.value = 'expanded'
-    }
-  })
 
   return {
     profile,
@@ -161,10 +143,13 @@ export const useSettingsStore = defineStore('settings', () => {
     sidebarStyle,
     accentColor,
     activeAccentKey,
+    isSidebarOpen,
     updateProfile,
     setThemeMode,
     setSidebarStyle,
     setAccentColor,
+    toggleSidebarOpen,
+    toggleSidebarClose,
     applyThemeToDOM
   }
 })

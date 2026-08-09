@@ -20,6 +20,7 @@ const isChildActive = (item: typeof sidebarNavigation[number]): boolean => {
 
 
 const { sidebarStyle } = storeToRefs(settingsStore)
+const { isSidebarOpen } = storeToRefs(settingsStore)
 
 const handleClickOutsideCompactSublist = (event: MouseEvent) => {
   if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
@@ -39,26 +40,35 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <Transition name="fade">
+    <div
+      v-if="isSidebarOpen"
+      @click="settingsStore.toggleSidebarClose"
+      class="fixed inset-0 z-40 bg-gray-900/50 backdrop-blur-md md:hidden"
+      aria-hidden="true"
+    />
+  </Transition>
   <div 
   ref="dropdownRef"
   class="relative z-50 group"
-  :class="{ 'fixed top-0 left-0 h-screen w-4': sidebarStyle === 'collapsed' }"
+  :class="{ 'fixed top-0 left-0 h-dvh w-4': sidebarStyle === 'collapsed' }"
   >
-    <header class="sticky top-0 left-0 min-h-screen border-b border-accent-border bg-white dark:bg-slate-950 shadow-xs"
+    <header class="absolute md:sticky top-16 md:top-0 -left-90 md:left-0 min-h-screen h-dvh border-b border-accent-border bg-white dark:bg-slate-950 shadow-xs transition-all duration-200"
     :class="[
         sidebarStyle === 'expanded' ? 'w-72' : '',
         sidebarStyle === 'compact' ? 'w-16' : '',
-        sidebarStyle === 'collapsed' ? 'w-0 border-none group-hover:w-72 group-hover:absolute group-hover:shadow-2xl' : ''
+        sidebarStyle === 'collapsed' ? 'w-0 border-none group-hover:w-72 group-hover:absolute group-hover:shadow-2xl' : '',
+        isSidebarOpen ? 'translate-x-90' : 'translate-x-0'
       ]"
       >
       <div class="flex flex-col max-w-m w-2xs px-6 py-4">
         <div class="flex flex-col space-x-8">
           <!-- Logo -->
-          <div class="flex items-center space-x-2 pb-4">
+          <div class="hidden md:flex items-center space-x-2 pb-4">
             <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-accent dark:bg-slate-900 text-lg font-bold text-white border border-transparent dark:border-accent-border shadow-sm">
               V
             </div>
-            <span class="flex text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">Verro <span class="text-accent">Analytics</span></span>
+            <span class="flex text-xl gap-1 font-bold tracking-tight text-slate-900 dark:text-slate-50">Verro <span class="text-accent">Analytics</span></span>
           </div>
 
           <!-- Nav Links -->
@@ -77,6 +87,7 @@ onUnmounted(() => {
                 :class="sidebarStyle === 'compact' ? 'max-w-9' : ''"
                 class="flex items-center gap-3 w-full pr-3 pl-1.5 py-2.5 rounded-lg text-sm font-medium text-gray-700 dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-900 hover:text-gray-900 dark:hover:text-slate-300 border border-transparent dark:hover:border-accent-border transition-colors"
                 active-class="!bg-accent/5 dark:!bg-slate-900 !text-accent dark:!text-accent-dark dark:!border-accent-border font-semibold"
+                @click="settingsStore.toggleSidebarClose"
               >
                 <Icon v-if="item.icon" :name="item.icon" class="w-5 h-5 shrink-0" />
                 <span :class="sidebarStyle === 'compact' ? 'invisible' : ''">{{ item.title }}</span>
@@ -119,6 +130,7 @@ onUnmounted(() => {
                     :to="child.to!"
                     class="rounded-lg pr-3 pl-1.5 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-slate-300 border border-transparent dark:hover:border-accent-border transition-colors"
                     active-class="!bg-accent/5 dark:!bg-slate-900 !text-accent dark:!text-accent-dark dark:!border-accent-border font-semibold"
+                    @click="settingsStore.toggleSidebarClose"
                   >
                     {{ child.title }}
                   </NuxtLink>
@@ -164,3 +176,15 @@ onUnmounted(() => {
 
   </div>
 </template>
+
+<style lang="css" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
