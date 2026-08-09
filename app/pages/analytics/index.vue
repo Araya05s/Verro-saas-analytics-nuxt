@@ -140,36 +140,34 @@ const chartOptions= ref({
 </script>
 
 <template>
-  <div class="space-y-6">
-    <!-- Header & Filter Controls -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-      <div>
-        <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-50">Analytics Overview</h1>
-        <p class="text-sm text-slate-500 dark:text-slate-300">Cross-metric performance overview and key drivers.</p>
-      </div>
+  <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-50">Overview</h1>
+      <p class="text-sm text-slate-500 dark:text-slate-300">Monitor your key SaaS metrics and customer growth.</p>
+    </div>
       <!-- Sliding Horizontal Navigation Bar -->
-        <div class="rounded-2xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 p-1.5 shadow-xs">
-          
-          <!-- Tab Items -->
-          <div class="relative flex overflow-x-auto no-scrollbar">
-            <!-- Animated Active Pill Indicator -->
-            <div
-              class="absolute top-1.5 bottom-1.5 rounded-md bg-accent dark:bg-slate-800 border border-transparent dark:border-accent-border transition-all duration-300 ease-out"
-              :style="[pillStyle]"
-            />
-            <button
-              v-for="(tab, index) in tabs"
-              :key="tab.key"
-              :ref="(el) => (tabRefs[index] = el as HTMLElement)"
-              @click="activeTab = tab.key"
-              class="flex items-center justify-center gap-2 whitespace-nowrap rounded-xl px-5 py-2.5 text-xs font-bold transition-colors z-10"
-              :class="[activeTab === tab.key ? 'text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-50']"
-            >
-              {{ tab.label }}
-            </button>
-          </div>
-        </div>
+    <div class="rounded-2xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 p-1.5 shadow-xs">
+      
+      <!-- Tab Items -->
+      <div class="relative flex overflow-x-auto no-scrollbar">
+        <!-- Animated Active Pill Indicator -->
+        <div
+          class="absolute top-1.5 bottom-1.5 rounded-md bg-accent dark:bg-slate-800 border border-transparent dark:border-accent-border transition-all duration-300 ease-out"
+          :style="[pillStyle]"
+        />
+        <button
+          v-for="(tab, index) in tabs"
+          :key="tab.key"
+          :ref="(el) => (tabRefs[index] = el as HTMLElement)"
+          @click="activeTab = tab.key"
+          class="flex items-center justify-center gap-2 whitespace-nowrap rounded-xl px-5 py-2.5 text-xs font-bold transition-colors z-10"
+          :class="[activeTab === tab.key ? 'text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-50']"
+        >
+          {{ tab.label }}
+        </button>
       </div>
+    </div>
+  </div>
 
       <div v-if="status === 'pending'" class="animate-pulse grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div v-for="i in 4" :key="i" class="h-38 bg-slate-200 dark:bg-slate-800 rounded-2xl" />
@@ -218,17 +216,20 @@ const chartOptions= ref({
       </div>
 
 
-    <!-- Main Overview Chart -->
-    <div class="rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-slate-800 p-6 shadow-xs">
-      <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50 mb-4">Overall Performance Trend</h2>
-        <div class="h-64 w-full rounded-xl border border-dashed border-slate-20 dark:border-slate-200 bg-slate-50/50 dark:bg-slate-950/50 p-4">
-        <ClientOnly>
-          <Line 
-            :data="lineChartData" 
-            :options="chartOptions" 
-          />
-        </ClientOnly>
+  <!-- Main Overview Chart -->
+  <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-xs lg:col-span-2">
+    <div class="mb-6 flex items-center justify-between">
+      <div>
+        <h2 class="text-lg font-bold text-slate-900 dark:text-slate-200">Overall Performance Trend</h2>
       </div>
+    </div>
+    <div class="h-64 w-full rounded-xl border border-dashed border-slate-20 dark:border-slate-200 bg-slate-50/50 dark:bg-slate-950/50 p-4">
+      <ClientOnly>
+        <Line 
+          :data="lineChartData" 
+          :options="chartOptions" 
+        />
+      </ClientOnly>
     </div>
   </div>
 </template>

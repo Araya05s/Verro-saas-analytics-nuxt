@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useBreakpoints, breakpointsTailwind } from '@vueuse/core'
 
 export type ThemeMode = 'light' | 'dark' | 'system'
 export type SidebarStyle = 'expanded' | 'collapsed' | 'compact'
@@ -82,6 +83,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const themeMode = ref<ThemeMode>('system')
   const sidebarStyle = ref<SidebarStyle>('expanded')
   const accentColor = ref<AccentColor>('green')
+  const isSidebarOpen = useState<boolean>('sidebar-isOpen', () => false)
 
   const prefersDark = ref()
 
@@ -125,6 +127,15 @@ export const useSettingsStore = defineStore('settings', () => {
     applyThemeToDOM()
   }
 
+  const toggleSidebarOpen = () => {
+    isSidebarOpen.value = !isSidebarOpen.value
+  }
+
+  const toggleSidebarClose = () => {
+    isSidebarOpen.value = false
+  }
+
+
   return {
     profile,
     themeMode,
@@ -132,10 +143,13 @@ export const useSettingsStore = defineStore('settings', () => {
     sidebarStyle,
     accentColor,
     activeAccentKey,
+    isSidebarOpen,
     updateProfile,
     setThemeMode,
     setSidebarStyle,
     setAccentColor,
+    toggleSidebarOpen,
+    toggleSidebarClose,
     applyThemeToDOM
   }
 })
