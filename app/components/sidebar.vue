@@ -51,7 +51,7 @@ onUnmounted(() => {
   <div 
   ref="dropdownRef"
   class="relative z-50 group"
-  :class="{ 'fixed top-0 left-0 h-dvh w-4': sidebarStyle === 'collapsed' }"
+  :class="{ 'sticky top-0 z-55 left-0 h-dvh w-0 bg-slate-900': sidebarStyle === 'collapsed' }"
   >
     <header class="absolute md:sticky top-16 md:top-0 -left-90 md:left-0 min-h-screen h-dvh border-b border-accent-border bg-white dark:bg-slate-950 shadow-xs transition-all duration-200"
     :class="[
@@ -64,12 +64,18 @@ onUnmounted(() => {
       <div class="flex flex-col max-w-m w-2xs px-6 py-4">
         <div class="flex flex-col space-x-8">
           <!-- Logo -->
-          <div class="hidden md:flex items-center space-x-2 pb-4">
-            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-accent dark:bg-slate-900 text-lg font-bold text-white border border-transparent dark:border-accent-border shadow-sm">
-              V
+          <NuxtLink to="/">
+            <div class="hidden md:flex items-center space-x-2 pb-4">
+                <img class="h-8 w-8 rounded-xl border-r border-t border-accent"
+                src="/logo.svg" alt="Company_logo">
+              <span class="text-xl gap-1 font-bold tracking-tight text-slate-900 dark:text-slate-50"
+                :class="[
+                  sidebarStyle === 'compact' ? 'hidden' : 'flex',
+                  isSidebarOpen ? 'translate-x-90' : 'translate-x-0'
+                ]"
+                >Verro <span class="text-accent">Analytics</span></span>
             </div>
-            <span class="flex text-xl gap-1 font-bold tracking-tight text-slate-900 dark:text-slate-50">Verro <span class="text-accent">Analytics</span></span>
-          </div>
+          </NuxtLink>
 
           <!-- Nav Links -->
           <nav class="flex flex-col space-y-1"
@@ -146,7 +152,7 @@ onUnmounted(() => {
                   leave-to-class="-translate-x-64 opacity-0"
                 >
                   <div 
-                    v-if="sidebarStyle === 'compact'"
+                    v-if="sidebarStyle === 'compact' && isSidebarOpen"
                     v-show="openDropdowns === item.title" 
                     class="absolute left-full -top-12 ml-3 flex flex-col min-w-52 p-1.5 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200 dark:border-slate-800/80 rounded-xl shadow-xl z-50 transition-all"
                   >

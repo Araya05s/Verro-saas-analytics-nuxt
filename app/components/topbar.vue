@@ -14,7 +14,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <header class="top-0 z-50 border-b border-slate-200 dark:border-accent bg-white dark:bg-slate-950 shadow-xs">
+    <header class="sticky top-0 z-50 border-b border-slate-200 dark:border-accent bg-white dark:bg-slate-950 shadow-xs">
       <div class="mx-auto flex w-full items-center justify-between px-6 py-4">
        <!-- Toggle Button (Visible on mobile/sm screens) -->
       <button
@@ -31,9 +31,12 @@ onMounted(() => {
     </button>
        
         <!-- Logo -->
-        <div class="flex md:hidden items-center space-x-2">
-          <span class="flex text-xl gap-1 font-bold tracking-tight text-slate-900 dark:text-slate-50">Verro<span class="text-accent">Analytics</span></span>
-        </div>
+        <NuxtLink to="/">
+          <div class="flex md:hidden items-center space-x-2">
+            <img class="flex h-6 w-6 rounded-md border-r border-t border-accent" src="/logo.svg" alt="Company_logo">
+            <span class="flex text-md gap-1 font-bold tracking-tight text-slate-900 dark:text-slate-50">Verro<span class="text-accent">Analytics</span></span>
+          </div>
+        </NuxtLink>
 
         <div class="flex ml-auto items-center space-x-4">
           
