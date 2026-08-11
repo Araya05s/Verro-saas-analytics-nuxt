@@ -177,7 +177,7 @@ onUnmounted(() => {
       </div>
 
       <!-- Sliding Horizontal Navigation Bar -->
-        <div class="rounded-2xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 p-1.5 shadow-xs">
+        <div class="max-w-65 md:max-w-7xl rounded-2xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 p-1.5 shadow-xs">
           
           <!-- Tab Items -->
           <div class="relative flex overflow-x-auto no-scrollbar">
@@ -247,48 +247,49 @@ onUnmounted(() => {
         />
     </div>
 
-    <div class="rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-slate-800 p-6 shadow-xs">
-      <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50 mb-4">Revenue Stream Distribution</h2>
-        <div class="h-64 w-full rounded-xl border border-dashed border-slate-20 dark:border-slate-200 bg-slate-50/50 dark:bg-slate-950/50 p-4">
-        <ClientOnly>
-          <Bar :data="chartData" :options="chartOptions" />
-        </ClientOnly>
+    <div class="grid grid-cols-1 gap-8">
+      <div class="rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-slate-800 p-6 shadow-xs">
+        <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50 mb-4">Revenue Stream Distribution</h2>
+         <div class="relative h-64 w-full min-w-0 rounded-xl border border-dashed border-slate-200 dark:border-slate-200 bg-slate-50/50 dark:bg-slate-950/50 p-4">
+            <ClientOnly>
+              <Bar :data="chartData" :options="chartOptions" />
+            </ClientOnly>
+        </div>
       </div>
-    </div>
-    
-    <div class="rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/5 p-6 shadow-xs overflow-hidden">
-      <div class="mb-4">
-        <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50">Filtered Transactions</h2>
-        <p class="text-xs text-slate-500 dark:text-slate-300">Live updating records matching filter: <span class="font-bold text-accent">{{ activeTab }}</span></p>
+      <div class="rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/5 p-6 shadow-xs overflow-hidden">
+        <div class="mb-4">
+          <h2 class="text-base font-semibold text-slate-900 dark:text-slate-50">Filtered Transactions</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-300">Live updating records matching filter: <span class="font-bold text-accent">{{ activeTab }}</span></p>
+        </div>
+        <TableData
+          :columns="columns"
+          :data="filteredRevenues"
+          :page-size-options="[5, 10, 20, 50]"
+        >
+          <template #cell-id="{ value }">
+            <span class="font-mono font-bold text-slate-900 dark:text-slate-50 group-hover:text-accent transition-colors">
+              {{ value }}
+            </span>
+          </template>
+  
+          <template #cell-amount="{ value }">
+            <span class="font-extrabold text-slate-900 dark:text-accent">${{ value }}</span>
+          </template>
+  
+          <template #cell-status="{ value }">
+            <span
+              class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold"
+              :class="{
+                'bg-emerald-50 text-emerald-600': value === 'Paid',
+                'bg-amber-50 text-amber-700': value === 'Pending',
+                'bg-red-50 text-red-600': value === 'Overdue'
+              }"
+            >
+              {{ value }}
+            </span>
+          </template>
+        </TableData>
       </div>
-      <TableData
-        :columns="columns"
-        :data="filteredRevenues"
-        :page-size-options="[5, 10, 20, 50]"
-      >
-        <template #cell-id="{ value }">
-          <span class="font-mono font-bold text-slate-900 dark:text-slate-50 group-hover:text-accent transition-colors">
-            {{ value }}
-          </span>
-        </template>
-
-        <template #cell-amount="{ value }">
-          <span class="font-extrabold text-slate-900 dark:text-accent">${{ value }}</span>
-        </template>
-
-        <template #cell-status="{ value }">
-          <span
-            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold"
-            :class="{
-              'bg-emerald-50 text-emerald-600': value === 'Paid',
-              'bg-amber-50 text-amber-700': value === 'Pending',
-              'bg-red-50 text-red-600': value === 'Overdue'
-            }"
-          >
-            {{ value }}
-          </span>
-        </template>
-      </TableData>
     </div>
   </div>
 </template>

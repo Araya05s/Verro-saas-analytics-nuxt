@@ -58,45 +58,46 @@ const formatCurrency = (val: unknown): string => {
         />
       </div>
     </div>
-
-    <TableData
-      :columns="columns"
-      :data="filteredInvoices"
-      :page-size-options="[5, 10, 20, 50]"
-    >
-      <template #cell-id="{ value }">
-        <span class="font-mono font-bold text-slate-900 dark:text-slate-50 group-hover:text-accent dark:group-hover:text-slate-50 transition-colors">
-          {{ value }}
-        </span>
-      </template>
-
-      <template #cell-amount="{ value }">
-        <span class="font-extrabold text-slate-900 dark:text-slate-50">${{ formatCurrency(value) }}</span>
-      </template>
-
-      <template #cell-status="{ value }">
-        <span
-          class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold"
-          :class="{
-            'bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-300 border border-transparent dark:border-emerald-300': value === 'Paid',
-            'bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-transparent dark:border-amber-300': value === 'Pending',
-            'bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-300 border border-transparent dark:border-red-300': value === 'Overdue'
-          }"
-        >
-          {{ value }}
-        </span>
-      </template>
-
-      <template #cell-action="{ row }">
-        <button
-          @click.stop="openInvoiceModal(row)"
-          class="inline-flex items-center gap-1.5 rounded-lg bg-accent dark:bg-accent/20 px-3 py-1.5 text-xs font-bold text-slate-50 shadow-xs transition-all hover:bg-accent dark:hover:bg-accent/40 border border-transparent dark:border-accent-border active:scale-95"
-        >
-          <Icon name="heroicons:eye-20-solid" class="size-3.5" />
-          View
-        </button>
-      </template>
-    </TableData>
+    <div class="grid grid-cols-1 gap-8">
+      <TableData
+        :columns="columns"
+        :data="filteredInvoices"
+        :page-size-options="[5, 10, 20, 50]"
+      >
+        <template #cell-id="{ value }">
+          <span class="font-mono font-bold text-slate-900 dark:text-slate-50 group-hover:text-accent dark:group-hover:text-slate-50 transition-colors">
+            {{ value }}
+          </span>
+        </template>
+  
+        <template #cell-amount="{ value }">
+          <span class="font-extrabold text-slate-900 dark:text-slate-50">${{ formatCurrency(value) }}</span>
+        </template>
+  
+        <template #cell-status="{ value }">
+          <span
+            class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold"
+            :class="{
+              'bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-300 border border-transparent dark:border-emerald-300': value === 'Paid',
+              'bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-transparent dark:border-amber-300': value === 'Pending',
+              'bg-red-50 dark:bg-red-950 text-red-600 dark:text-red-300 border border-transparent dark:border-red-300': value === 'Overdue'
+            }"
+          >
+            {{ value }}
+          </span>
+        </template>
+  
+        <template #cell-action="{ row }">
+          <button
+            @click.stop="openInvoiceModal(row)"
+            class="inline-flex items-center gap-1.5 rounded-lg bg-accent dark:bg-accent/20 px-3 py-1.5 text-xs font-bold text-slate-50 shadow-xs transition-all hover:bg-accent dark:hover:bg-accent/40 border border-transparent dark:border-accent-border active:scale-95"
+          >
+            <Icon name="heroicons:eye-20-solid" class="size-3.5" />
+            View
+          </button>
+        </template>
+      </TableData>
+    </div>
 
     <AppModal v-model="isModalOpen" max-width="lg">
       <template #header>
