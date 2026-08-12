@@ -38,8 +38,6 @@ const tabs: { key: TimeFilter; label: string;}[] = [
 const tabRefs = ref<HTMLElement[]>([])
 const pillStyle = reactive({ left: '0px', width: '0px' })
 
-const darkMode = ref()
-
 const updatePill = () => {
   const index = tabs.findIndex((t) => t.key === activeTab.value)
   const currentEl = tabRefs.value[index]
@@ -60,7 +58,6 @@ const pending = ref<boolean>(true)
 
 onMounted(() => {
   nextTick(() => updatePill())
-  darkMode.value = settingsStore.prefersDark
   window.addEventListener('resize', updatePill)
   setTimeout(() => {
     pending.value = false
@@ -73,7 +70,7 @@ onUnmounted(() => {
 
 const chartTextColor = computed (() => {
   return {
-    textColor: darkMode.value ? '#cbd5e1' : '#334155'
+    textColor: settingsStore.prefersDark ? '#e2e8f0' : '#334155'
   }
 })
 

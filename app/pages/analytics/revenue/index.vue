@@ -78,15 +78,13 @@ const updatePill = () => {
 
 const activeTab = ref<TimeFilter>('7d')
 
-const darkMode = ref()
-
 watch(activeTab, () => {
   nextTick(() => updatePill())
 })
 
 const chartTextColor = computed (() => {
   return {
-    textColor: darkMode.value ? '#cbd5e1' : '#334155'
+    textColor: settingsStore.prefersDark ? '#e2e8f0' : '#334155'
   }
 })
 
@@ -152,7 +150,6 @@ const pending = ref<boolean>(true)
 
 onMounted(() => {
   nextTick(() => updatePill())
-  darkMode.value = settingsStore.prefersDark
   window.addEventListener('resize', updatePill)
   setTimeout(() => {
     pending.value = false

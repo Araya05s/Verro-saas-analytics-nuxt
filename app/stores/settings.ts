@@ -84,7 +84,7 @@ export const useSettingsStore = defineStore('settings', () => {
   const sidebarStyle = ref<SidebarStyle>('expanded')
   const accentColor = ref<AccentColor>('green')
   const isSidebarOpen = useState<boolean>('sidebar-isOpen', () => false)
-
+  
   const prefersDark = ref()
 
   const activeAccentKey = computed<AccentColorOption>(() => {
@@ -92,11 +92,11 @@ export const useSettingsStore = defineStore('settings', () => {
     return found ?? ACCENT_PALETTE[0]!
   })
   
-  const root = document.documentElement
 
   const applyThemeToDOM = () => {
     if (!import.meta.client) return
-
+    
+    const root = document.documentElement
 
     root.classList.remove('dark')
 
@@ -121,6 +121,7 @@ export const useSettingsStore = defineStore('settings', () => {
   mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
   const handleSystemChange = (e: MediaQueryListEvent) => {
     if (themeMode.value === 'system') {
+      const root = document.documentElement
       prefersDark.value = e.matches
       root.classList.toggle('dark', e.matches)
     }
