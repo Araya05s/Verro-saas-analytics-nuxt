@@ -8,7 +8,7 @@ onMounted(() => {
 })
 
 useHead({
-  title: 'Veero | Front-End Saas Analytics',
+  title: 'Verro | Front-End Saas Analytics',
   meta: [
     { name: 'description', content: 'A high-performance, responsive SaaS analytics platform featuring real-time data visualization filtering with state persistence and modular composable architecture. Built with Nuxt 4, Tailwind CSS, and Pinia.' },
     { property: "og:image", content: "/screenshots/dashboard-preview.png" }
@@ -29,8 +29,8 @@ useHead({
 })
 
 useSeoMeta({
-  title: 'Veero | Front-End Saas Analytics',
-  ogTitle: 'Veero | Front-End Saas Analytics',
+  title: 'Verro | Front-End Saas Analytics',
+  ogTitle: 'Verro | Front-End Saas Analytics',
   description: 'A high-performance, responsive SaaS analytics platform featuring real-time data visualization filtering with state persistence and modular composable architecture. Built with Nuxt 4, Tailwind CSS, and Pinia.',
   ogDescription: 'A high-performance, responsive SaaS analytics platform featuring real-time data visualization filtering with state persistence and modular composable architecture. Built with Nuxt 4, Tailwind CSS, and Pinia.',
   ogImage: '/screenshots/dashboard-preview.png',
