@@ -32,7 +32,7 @@ const filteredCustomers = computed(() => {
 
 const columns: Column<Customer>[] = [
   { key: 'name', label: 'Customer', sortable: true },
-  { key: 'plan', label: 'PlanLevel', sortable: true },
+  { key: 'plan', label: 'Plan Level', sortable: true },
   { key: 'status', label: 'Status', sortable: true },
   { key: 'arr', label: 'ARR', sortable: true, formatter: (val) => typeof val === 'number' ? `$${val.toLocaleString()}` : val },
   { key: 'usagePercent', label: 'Usage', sortable: true, formatter: (val) => typeof val === 'number' ? `${val}%` : val },

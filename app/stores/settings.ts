@@ -91,16 +91,20 @@ export const useSettingsStore = defineStore('settings', () => {
     const found = ACCENT_PALETTE.find(item => item.key === accentColor.value)
     return found ?? ACCENT_PALETTE[0]!
   })
+  
+  const root = document.documentElement
 
   const applyThemeToDOM = () => {
     if (!import.meta.client) return
 
-    const root = document.documentElement
 
     root.classList.remove('dark')
 
     if (themeMode.value === 'dark') {
+      prefersDark.value = true
       root.classList.add('dark')
+    } else if (themeMode.value === 'light') {
+      prefersDark.value = false
     } else if (themeMode.value === 'system') {
       prefersDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
       if (prefersDark.value) {
@@ -108,6 +112,25 @@ export const useSettingsStore = defineStore('settings', () => {
       }
     }
   }
+
+  watch(themeMode, applyThemeToDOM, { immediate: true })
+
+  let mediaQuery: MediaQueryList
+
+  onMounted(() => {
+  mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+  const handleSystemChange = (e: MediaQueryListEvent) => {
+    if (themeMode.value === 'system') {
+      prefersDark.value = e.matches
+      root.classList.toggle('dark', e.matches)
+    }
+  }
+  mediaQuery.addEventListener('change', handleSystemChange)
+
+  onUnmounted(() => {
+    mediaQuery.removeEventListener('change', handleSystemChange)
+  })
+})
 
   const updateProfile = (partial: Partial<CompanyProfile>) => {
     profile.value = { ...profile.value, ...partial }

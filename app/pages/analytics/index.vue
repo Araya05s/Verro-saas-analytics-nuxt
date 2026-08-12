@@ -32,10 +32,7 @@ const updatePill = () => {
   }
 }
 
-const darkMode = ref()
-
 onMounted(() => {
-  darkMode.value = settingsStore.prefersDark
   nextTick(() => updatePill())
   window.addEventListener('resize', updatePill)
 })
@@ -50,7 +47,7 @@ watch(activeTab, () => {
 
 const chartTextColor = computed (() => {
   return {
-    textColor: darkMode.value ? '#cbd5e1' : '#334155'
+    textColor: settingsStore.prefersDark ? '#e2e8f0' : '#334155'
   }
 })
 
