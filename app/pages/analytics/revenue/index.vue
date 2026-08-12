@@ -86,7 +86,7 @@ watch(activeTab, () => {
 
 const chartTextColor = computed (() => {
   return {
-    textColor: darkMode ? '#cbd5e1' : '#334155'
+    textColor: darkMode.value ? '#cbd5e1' : '#334155'
   }
 })
 
