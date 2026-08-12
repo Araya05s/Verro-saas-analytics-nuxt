@@ -12,8 +12,10 @@ import topbar from '~/components/topbar.vue';
       <topbar />
       
       <!-- Main content -->
-      <main class="mx-auto max-w-7xl px-6 py-8">
-        <slot />
+      <main class="flex-1 w-full">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-8 overflow-x-auto">
+          <slot />
+        </div>
       </main>
     </div>
   </div>

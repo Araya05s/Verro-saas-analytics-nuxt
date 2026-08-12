@@ -76,7 +76,7 @@ watch(activeTab, () => {
 
 const chartTextColor = computed (() => {
   return {
-    textColor: darkMode ? '#cbd5e1' : '#334155'
+    textColor: darkMode.value ? '#cbd5e1' : '#334155'
   }
 })
 
@@ -331,13 +331,13 @@ const generateAndDownloadExcel = () => {
     </div>
 
     <!-- Sliding Horizontal Navigation Bar -->
-    <div class="relative rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/5 px-2 shadow-xs">
+    <div class="w-full rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/5 px-2 shadow-xs">
       
       <!-- Tab Items -->
-      <div class="relative flex overflow-x-auto no-scrollbar">
+      <div class="relative flex flex-col lg:flex-row overflow-x-auto no-scrollbar">
         <!-- Animated Active Pill Indicator -->
         <div
-          class="absolute top-1.5 bottom-1.5 rounded-lg bg-accent dark:bg-accent/20 border border-accent-border transition-all duration-300 ease-out"
+          class="hidden lg:flex absolute top-1.5 bottom-1.5 rounded-lg bg-accent dark:bg-accent/20 border border-accent-border transition-all duration-300 ease-out"
           :style="pillStyle"
         />
         <button
@@ -345,8 +345,8 @@ const generateAndDownloadExcel = () => {
           :key="tab.key"
           :ref="(el) => (tabRefs[index] = el as HTMLElement)"
           @click="activeTab = tab.key"
-          class="flex items-center justify-center gap-2 whitespace-nowrap px-5 py-4 text-xs font-bold transition-colors z-10"
-          :class="[activeTab === tab.key ? 'text-slate-50' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200']"
+          class="flex items-center justify-center gap-2 whitespace-nowrap px-5 py-2 lg:py-4 text-xs font-bold transition-colors z-10 rounded-xl lg:rounded-none border-b lg:border-transparent"
+          :class="[activeTab === tab.key ? 'text-slate-50 border-accent-light' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 border-accent/50']"
         >
           <Icon :name="tab.icon" class="size-4" />
           {{ tab.label }}
@@ -359,7 +359,7 @@ const generateAndDownloadExcel = () => {
         <div class="lg:col-span-2 rounded-2xl border border-slate-200 dark:border-accent-border bg-white dark:bg-accent/10 p-6 shadow-xs">
           <h2 class="text-base font-bold text-slate-900 dark:text-slate-50 mb-1">Monthly Revenue Velocity</h2>
           <p class="text-xs text-slate-500 dark:text-slate-300 mb-6">Comparison between recurring subscriptions and add-on expansions.</p>
-          <div class="h-72">
+          <div class="h-64 w-full rounded-xl border border-dashed border-slate-20 dark:border-slate-200 bg-slate-50/50 dark:bg-slate-950/50 p-4">
             <Bar :data="revenueChartData" :options="barChartOptions" />
           </div>
         </div>
@@ -392,10 +392,10 @@ const generateAndDownloadExcel = () => {
     </div>
 
     <div v-else-if="activeTab === 'users'" class="space-y-6">
-      <div class="rounded-2xl border dark:border-accent-border bg-white dark:bg-accent/10 p-6 shadow-xs">
+      <div class="rounded-2xl border dark:border-accent-border bg-white dark:bg-accent/10 p-6 box-border shadow-xs">
         <h2 class="text-base font-bold text-slate-900 dark:text-slate-50 mb-1">User Growth & Conversion</h2>
         <p class="text-xs text-slate-500 dark:text-slate-300 mb-6">Tracking active accounts versus paying subscribers.</p>
-        <div class="h-80">
+        <div class="h-64 w-auto rounded-xl border border-dashed border-slate-20 dark:border-slate-200 bg-slate-50/50 dark:bg-slate-950/50 p-4">
           <Line :data="userChartData" :options="lineChartOptions" />
         </div>
       </div>

@@ -66,7 +66,7 @@ onMounted(() => {
 
 const chartTextColor = computed (() => {
   return {
-    textColor: darkMode ? '#cbd5e1' : '#334155'
+    textColor: darkMode.value ? '#cbd5e1' : '#334155'
   }
 })
 
@@ -163,7 +163,7 @@ const chartOptions = ref({
         </div>
 
         <!-- Sliding Horizontal Navigation Bar -->
-        <div class="rounded-2xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 p-1.5 shadow-xs">
+        <div class="max-w-65 md:max-w-7xl rounded-2xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 p-1.5 shadow-xs">
           
           <!-- Tab Items -->
           <div class="relative flex overflow-x-auto no-scrollbar">
